@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  server-v2:
+    build: ./
+    command: ./server-v2
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DB_PASSWORD=qwert123
+
+  db:
+    restart: always
+    image: postgres
+    volumes:
+      - ./.database/postgres/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=qwert123
+    ports:
+      - "5438:5432"
