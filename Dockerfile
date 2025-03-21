@@ -1,11 +1,14 @@
-FROM golang:1.23
+FROM golang:1.23-alpine
 
-RUN go version
-ENV GOPATH=/
+WORKDIR /app
 
-COPY ./ ./
-
+COPY go.mod go.sum ./
 RUN go mod download
-RUN go build -o server-v2 ./cmd/main.go
 
-CMD ["./server-v2"]
+COPY . /app
+
+RUN go build -o server ./cmd/main.go
+
+EXPOSE 8060
+
+CMD ["./server"]

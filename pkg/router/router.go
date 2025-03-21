@@ -11,11 +11,9 @@ func Router(r *fiber.App) {
 	{
 		v1 := api.Group("/v1")
 		{
-			v1.Get("/test", func(ctx *fiber.Ctx) error {
-				return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-					"message": "OK",
-				})
-			})
+			UserRouter(v1, "/user")
+			FormRouter(v1, "/form")
+			FieldRouter(v1, "/field/:fieldId")
 		}
 
 		v2 := api.Group("/v2")

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/gofiber/contrib/swagger"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -55,11 +56,11 @@ func main() {
 		AllowOrigins: "*",
 		AllowHeaders: "Origin, Content-Type, Accept",
 	}))
-	//app.Use(swagger.New(swagger.Config{
-	//	BasePath: "/docs",
-	//	FilePath: "./docs/swagger.json",
-	//	Path:     "docs",
-	//}))
+	app.Use(swagger.New(swagger.Config{
+		BasePath: "/docs",
+		FilePath: "./docs/swagger.json",
+		Path:     "docs",
+	}))
 
 	router.Router(app)
 

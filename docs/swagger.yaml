@@ -1,0 +1,933 @@
+definitions:
+  request.Field:
+    properties:
+      label:
+        type: string
+      name:
+        type: string
+      order_of:
+        type: integer
+      required:
+        type: boolean
+      type:
+        type: string
+    type: object
+  request.FieldMultiply:
+    properties:
+      is_multiply:
+        type: boolean
+    type: object
+  request.FieldPlaceholder:
+    properties:
+      placeholder:
+        type: string
+    type: object
+  request.FieldRange:
+    properties:
+      max:
+        type: integer
+      min:
+        type: integer
+    type: object
+  request.FieldVariants:
+    properties:
+      name:
+        type: string
+      variant:
+        type: string
+    type: object
+  request.Form:
+    properties:
+      description:
+        type: integer
+      logo:
+        type: string
+      slug:
+        type: string
+      title:
+        type: string
+    type: object
+  request.Tag:
+    properties:
+      description:
+        type: string
+      title:
+        type: string
+    type: object
+  request.User:
+    properties:
+      address:
+        type: string
+      email:
+        type: string
+      logo:
+        type: string
+      nickname:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
+  request.UserPermission:
+    properties:
+      permission:
+        type: string
+    type: object
+  response.Field:
+    properties:
+      form_id:
+        type: integer
+      id:
+        type: integer
+      label:
+        type: string
+      name:
+        type: string
+      order_of:
+        type: integer
+      required:
+        type: boolean
+      type:
+        type: string
+    type: object
+  response.FieldMultiply:
+    properties:
+      field_id:
+        type: integer
+      id:
+        type: integer
+      is_multiply:
+        type: boolean
+    type: object
+  response.FieldPlaceholder:
+    properties:
+      field_id:
+        type: integer
+      id:
+        type: integer
+      placeholder:
+        type: string
+    type: object
+  response.FieldRange:
+    properties:
+      field_id:
+        type: integer
+      id:
+        type: integer
+      max:
+        type: integer
+      min:
+        type: integer
+    type: object
+  response.FieldVariants:
+    properties:
+      field_id:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      variant:
+        type: string
+    type: object
+  response.Form:
+    properties:
+      author_id:
+        type: integer
+      description:
+        type: integer
+      id:
+        type: integer
+      logo:
+        type: string
+      slug:
+        type: string
+      title:
+        type: string
+    type: object
+  response.Tag:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+  response.User:
+    properties:
+      address:
+        type: string
+      create_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      logo:
+        type: string
+      nickname:
+        type: string
+      phone:
+        type: string
+      update_at:
+        type: string
+    type: object
+  response.UserPermission:
+    properties:
+      id:
+        type: integer
+      permission:
+        type: string
+      user_id:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/field/:fieldId/multiply:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Field Multiply
+      operationId: delete-field-multiply
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: DeleteFieldMultiply
+      tags:
+      - FieldMultiply
+    get:
+      consumes:
+      - application/json
+      description: Get Field Multiply
+      operationId: get-field-multiply
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.FieldMultiply'
+      summary: GetFieldMultiply
+      tags:
+      - FieldMultiply
+    patch:
+      consumes:
+      - application/json
+      description: Update Field Multiply
+      operationId: update-field-multiply
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.FieldMultiply'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.FieldMultiply'
+      summary: UpdateFieldMultiply
+      tags:
+      - FieldMultiply
+    post:
+      consumes:
+      - application/json
+      description: Create Field Multiply
+      operationId: create-field-multiply
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.FieldMultiply'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.FieldMultiply'
+      summary: CreateFieldMultiply
+      tags:
+      - FieldMultiply
+  /api/v1/field/:fieldId/placehodler:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Field Placeholder
+      operationId: delete-field-placeholder
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: DeleteFieldPlaceholder
+      tags:
+      - FieldPlaceholder
+  /api/v1/field/:fieldId/placeholder:
+    get:
+      consumes:
+      - application/json
+      description: Get Field Placeholder
+      operationId: get-field-placeholder
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.FieldPlaceholder'
+      summary: GetFieldPlaceholder
+      tags:
+      - FieldPlaceholder
+    patch:
+      consumes:
+      - application/json
+      description: Update Field Placeholder
+      operationId: update-field-placeholder
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.FieldPlaceholder'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.FieldPlaceholder'
+      summary: UpdateFieldPlaceholder
+      tags:
+      - FieldPlaceholder
+    post:
+      consumes:
+      - application/json
+      description: Create Field Placeholder
+      operationId: create-field-placeholder
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.FieldPlaceholder'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.FieldPlaceholder'
+      summary: CreateFieldPlaceholder
+      tags:
+      - FieldPlaceholder
+  /api/v1/field/:fieldId/range:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Field Range
+      operationId: delete-field-range
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: DeleteFieldRange
+      tags:
+      - FieldRange
+    get:
+      consumes:
+      - application/json
+      description: Get Field Range
+      operationId: get-field-range
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.FieldRange'
+      summary: GetFieldRange
+      tags:
+      - FieldRange
+    patch:
+      consumes:
+      - application/json
+      description: Update Field Range
+      operationId: update-field-range
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.FieldRange'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.FieldRange'
+      summary: UpdateFieldRange
+      tags:
+      - FieldRange
+    post:
+      consumes:
+      - application/json
+      description: Create Field Range
+      operationId: create-field-range
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.FieldRange'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.FieldRange'
+      summary: CreateFieldRange
+      tags:
+      - FieldRange
+  /api/v1/field/:fieldId/variants:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Field Variants
+      operationId: delete-field-variants
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: DeleteFieldVariants
+      tags:
+      - FieldVariants
+    get:
+      consumes:
+      - application/json
+      description: Get Field Variants
+      operationId: get-field-variants
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.FieldVariants'
+      summary: GetFieldVariants
+      tags:
+      - FieldVariants
+    patch:
+      consumes:
+      - application/json
+      description: Update Field Variant
+      operationId: update-field-variants
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.FieldVariants'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.FieldVariants'
+      summary: UpdateFieldVariants
+      tags:
+      - FieldVariants
+    post:
+      consumes:
+      - application/json
+      description: Create Field Variants
+      operationId: create-field-variants
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.FieldVariants'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.FieldVariants'
+      summary: CreateFieldVariants
+      tags:
+      - FieldVariants
+  /api/v1/form:
+    get:
+      consumes:
+      - application/json
+      description: Get All Forms
+      operationId: get-all-forms
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.Form'
+            type: array
+      summary: GetAllForms
+      tags:
+      - Form
+    post:
+      consumes:
+      - application/json
+      description: Create Form
+      operationId: create-form
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.Form'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Form'
+      summary: CreateForm
+      tags:
+      - Form
+  /api/v1/form/:formId/field:
+    get:
+      consumes:
+      - application/json
+      description: Get All Fields
+      operationId: get-all-fields
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.Field'
+            type: array
+      summary: GetAllFields
+      tags:
+      - Field
+    post:
+      consumes:
+      - application/json
+      description: Create Field
+      operationId: create-field
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.Field'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Field'
+      summary: CreateField
+      tags:
+      - Field
+  /api/v1/form/:formId/field/:id:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Field
+      operationId: delete-field
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: DeleteField
+      tags:
+      - Field
+    get:
+      consumes:
+      - application/json
+      description: Get One Field
+      operationId: get-one-field
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Field'
+      summary: GetOneField
+      tags:
+      - Field
+    patch:
+      consumes:
+      - application/json
+      description: Update Field
+      operationId: update-field
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.Field'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Field'
+      summary: UpdateField
+      tags:
+      - Field
+  /api/v1/form/:id:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Form
+      operationId: delete-form
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: DeleteForm
+      tags:
+      - Form
+    get:
+      consumes:
+      - application/json
+      description: Get One Form
+      operationId: get-one-form
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Form'
+      summary: GetOneForm
+      tags:
+      - Form
+    patch:
+      consumes:
+      - application/json
+      description: Update Form
+      operationId: update-form
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.Form'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Form'
+      summary: UpdateForm
+      tags:
+      - Form
+  /api/v1/permission:
+    get:
+      consumes:
+      - application/json
+      description: Get All Permissions
+      operationId: get-all-permissions
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.UserPermission'
+            type: array
+      summary: GetAllPermissions
+      tags:
+      - Permission
+    post:
+      consumes:
+      - application/json
+      description: Create Permission
+      operationId: create-permission
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserPermission'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.UserPermission'
+      summary: CreatePermission
+      tags:
+      - Permission
+  /api/v1/permission/:id:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Permission
+      operationId: delete-permission
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: DeletePermission
+      tags:
+      - Permission
+    get:
+      consumes:
+      - application/json
+      description: Get One Permission
+      operationId: get-one-permission
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.UserPermission'
+      summary: GetOnePermission
+      tags:
+      - Permission
+    patch:
+      consumes:
+      - application/json
+      description: Update Permission
+      operationId: update-permission
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserPermission'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.UserPermission'
+      summary: UpdatePermission
+      tags:
+      - Permission
+  /api/v1/user:
+    get:
+      consumes:
+      - application/json
+      description: Get All Users
+      operationId: get-all-users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.User'
+            type: array
+      summary: GetAllUsers
+      tags:
+      - User
+  /api/v1/user/:id:
+    delete:
+      consumes:
+      - application/json
+      description: Delete User
+      operationId: delete-user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: DeleteUser
+      tags:
+      - User
+    get:
+      consumes:
+      - application/json
+      description: Get One User
+      operationId: get-one-user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.User'
+      summary: GetOneUser
+      tags:
+      - User
+    patch:
+      consumes:
+      - application/json
+      description: Update User
+      operationId: update-user
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.User'
+      summary: UpdateUser
+      tags:
+      - User
+  /api/v1/user/:userId/tag:
+    get:
+      consumes:
+      - application/json
+      description: Get All Tags
+      operationId: get-all-tags
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.Tag'
+            type: array
+      summary: GetAllTags
+      tags:
+      - Tag
+    post:
+      consumes:
+      - application/json
+      description: Create Tag
+      operationId: create-tag
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.Tag'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Tag'
+      summary: CreateTag
+      tags:
+      - tag
+  /api/v1/user/:userId/tag/:id:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Tag
+      operationId: delete-tag
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: DeleteTag
+      tags:
+      - Tag
+    get:
+      consumes:
+      - application/json
+      description: Get One Tag
+      operationId: get-one-tag
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Tag'
+      summary: GetOneTag
+      tags:
+      - Tag
+    patch:
+      consumes:
+      - application/json
+      description: Update Tag
+      operationId: update-tag
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.Tag'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Tag'
+      summary: UpdateTag
+      tags:
+      - Tag
+swagger: "2.0"
