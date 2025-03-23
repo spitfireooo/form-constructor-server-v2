@@ -28,7 +28,7 @@ func Router(r *fiber.App) {
 
 	utils := r.Group("/utils")
 	{
-		utils.Get("metrics", monitor.New(monitor.Config{
+		utils.Get("/metrics", monitor.New(monitor.Config{
 			Title:   "Metrics Of Form Constructor Server",
 			Refresh: time.Second,
 		}))

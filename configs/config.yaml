@@ -1,5 +1,6 @@
 http:
   port: "8060"
+  auth_port: "8020"
 
 db:
   username: "root"
