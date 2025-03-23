@@ -8,7 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
-	"github.com/spitfireooo/form-constructor-server-v2/internal/config"
+	"github.com/spitfireooo/form-constructor-server-v2/pkg/config"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/database"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/router"
 	"log"
