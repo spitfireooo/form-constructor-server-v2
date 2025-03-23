@@ -8,27 +8,27 @@ import (
 func UserRouter(group fiber.Router, path string) {
 	user := group.Group(path)
 	{
-		user.Get("/", v1.GetAllUsers)
-		user.Get("/:id", v1.GetOneUser)
-		user.Get("/:id", v1.UpdateUser)
-		user.Get("/:id", v1.DeleteUser)
+		user.Get("/", controller_v1.GetAllUsers)
+		user.Get("/:id", controller_v1.GetOneUser)
+		user.Get("/:id", controller_v1.UpdateUser)
+		user.Get("/:id", controller_v1.DeleteUser)
 
 		tag := user.Group("/:userId/tag")
 		{
-			tag.Post("/", v1.CreateTag)
-			tag.Get("/", v1.GetAllTags)
-			tag.Get("/:id", v1.GetOneTag)
-			tag.Patch("/:id", v1.UpdateTag)
-			tag.Delete("/:id", v1.DeleteTag)
+			tag.Post("/", controller_v1.CreateTag)
+			tag.Get("/", controller_v1.GetAllTags)
+			tag.Get("/:id", controller_v1.GetOneTag)
+			tag.Patch("/:id", controller_v1.UpdateTag)
+			tag.Delete("/:id", controller_v1.DeleteTag)
 		}
 
 		permission := user.Group("/:userId/permission")
 		{
-			permission.Post("/", v1.CreatePermission)
-			permission.Get("/", v1.GetAllPermissions)
-			permission.Get("/:id", v1.GetOnePermission)
-			permission.Patch("/:id", v1.UpdatePermission)
-			permission.Delete("/:id", v1.DeletePermission)
+			permission.Post("/", controller_v1.CreatePermission)
+			permission.Get("/", controller_v1.GetAllPermissions)
+			permission.Get("/:id", controller_v1.GetOnePermission)
+			permission.Patch("/:id", controller_v1.UpdatePermission)
+			permission.Delete("/:id", controller_v1.DeletePermission)
 		}
 	}
 }

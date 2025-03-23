@@ -1,7 +1,9 @@
-package v1
+package controller_v1
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/spitfireooo/form-constructor-server-v2/pkg/service"
+	"log"
 )
 
 // @Summary	GetAllUsers
@@ -13,9 +15,16 @@ import (
 // @Success 200 {array} response.User
 // @Router /api/v1/user [get]
 func GetAllUsers(ctx *fiber.Ctx) error {
-	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message": "GetAllUsers",
-	})
+	if res, err := service.GetAllUsers(); err != nil {
+		log.Println("Error in user service", err)
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Error in user service",
+		})
+	} else {
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+			"data": res,
+		})
+	}
 }
 
 // @Summary	GetOneUser
@@ -27,9 +36,18 @@ func GetAllUsers(ctx *fiber.Ctx) error {
 // @Success 200 {object} response.User
 // @Router /api/v1/user/:id [get]
 func GetOneUser(ctx *fiber.Ctx) error {
-	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message": "GetAllUsers",
-	})
+	id := ctx.Params("id")
+
+	if res, err := service.GetOneUser(id); err != nil {
+		log.Println("Error in user service", err)
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Error in user service",
+		})
+	} else {
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+			"data": res,
+		})
+	}
 }
 
 // @Summary	UpdateUser
