@@ -35,7 +35,7 @@ const (
 
 var Connect *sqlx.DB
 
-func DatabaseConf(con ConnectConfig) error {
+func DatabaseInit(con ConnectConfig) error {
 	dsn := fmt.Sprintf(
 		"user=%s password=%s dbname=%s host=%s port=%s sslmode=%s",
 		con.Username, con.Password, con.Database, con.Host, con.Port, con.SSLMode,
