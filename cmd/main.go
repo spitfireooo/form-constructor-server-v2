@@ -9,7 +9,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
 	"github.com/spitfireooo/form-constructor-server-v2/internal/config"
-	"github.com/spitfireooo/form-constructor-server-v2/internal/database"
+	"github.com/spitfireooo/form-constructor-server-v2/pkg/database"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/router"
 	"log"
 	"os"

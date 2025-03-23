@@ -2,8 +2,8 @@ package service
 
 import (
 	"fmt"
-	"github.com/spitfireooo/form-constructor-server-v2/internal/database"
 	"github.com/spitfireooo/form-constructor-server-v2/internal/model/response"
+	"github.com/spitfireooo/form-constructor-server-v2/pkg/database"
 )
 
 func GetAllUsers() ([]response.User, error) {
