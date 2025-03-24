@@ -45,7 +45,7 @@ func DatabaseInit(con ConnectConfig) error {
 		return err
 	} else {
 		Connect = db
-		log.Println("Database connected...")
+		log.Println("Databa se connected...")
 	}
 
 	if err := Connect.Ping(); err != nil {
