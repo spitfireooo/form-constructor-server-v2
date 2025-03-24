@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/controller/v1"
+	"github.com/spitfireooo/form-constructor-server-v2/pkg/service"
 )
 
 func UserRouter(group fiber.Router, path string) {
@@ -10,8 +11,9 @@ func UserRouter(group fiber.Router, path string) {
 	{
 		user.Get("/", controller_v1.GetAllUsers)
 		user.Get("/:id", controller_v1.GetOneUser)
-		user.Get("/:id", controller_v1.UpdateUser)
-		user.Get("/:id", controller_v1.DeleteUser)
+		user.Patch("/:id", controller_v1.UpdateUser)
+		user.Delete("/:id", controller_v1.DeleteUser)
+		user.Post("/upload", service.FileUpload)
 
 		tag := user.Group("/:userId/tag")
 		{

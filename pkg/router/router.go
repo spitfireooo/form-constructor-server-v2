@@ -18,11 +18,7 @@ func Router(r *fiber.App) {
 
 		v2 := api.Group("/v2")
 		{
-			v2.Get("/test2", func(ctx *fiber.Ctx) error {
-				return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-					"message": "OK",
-				})
-			})
+			FormRouter_v2(v2, "/form")
 		}
 	}
 

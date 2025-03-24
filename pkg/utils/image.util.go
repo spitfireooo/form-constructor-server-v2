@@ -2,13 +2,13 @@ package utils
 
 import (
 	"errors"
-	"mime/multipart"
+	"fmt"
+	"github.com/google/uuid"
 )
 
-func CheckContentType(file *multipart.FileHeader, contentTypes ...string) error {
+func CheckContentType(contentTypeFile string, contentTypes ...string) error {
 	if len(contentTypes) > 0 {
 		for _, contentType := range contentTypes {
-			contentTypeFile := file.Header.Get("Content-Type")
 			if contentTypeFile == contentType {
 				return nil
 			}
@@ -18,4 +18,8 @@ func CheckContentType(file *multipart.FileHeader, contentTypes ...string) error 
 	} else {
 		return errors.New("not found content type to be checking")
 	}
+}
+
+func GenerateFilename(filename string) string {
+	return fmt.Sprintf("./static/uploads/%s_%s", uuid.New(), filename)
 }
