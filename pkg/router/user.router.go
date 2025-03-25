@@ -28,7 +28,7 @@ func UserRouter(group fiber.Router, path string) {
 		{
 			userPermission.Post("/", controller_v1.CreatePermission)
 			userPermission.Get("/", controller_v1.GetUserPermissions)
-			userPermission.Delete("/", controller_v1.DeleteUserPermission)
+			userPermission.Delete("/", controller_v1.DeleteUserPermissions)
 		}
 	}
 

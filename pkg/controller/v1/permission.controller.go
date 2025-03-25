@@ -147,10 +147,10 @@ func UpdatePermission(ctx *fiber.Ctx) error {
 // @Produce	json
 // @Success 200 {string} string
 // @Router /api/v1/user/:userId/permission [delete]
-func DeleteUserPermission(ctx *fiber.Ctx) error {
+func DeleteUserPermissions(ctx *fiber.Ctx) error {
 	id, _ := ctx.ParamsInt("userId")
 
-	if err := service.DeleteUserPermission(id); err != nil {
+	if err := service.DeleteUserPermissions(id); err != nil {
 		log.Println("Error in permission service", err)
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Error in user service",
