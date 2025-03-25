@@ -26,7 +26,7 @@ func GetAllUsers() ([]response.User, error) {
 	return *res, err
 }
 
-func GetOneUser(id string) (response.User, error) {
+func GetOneUser(id int) (response.User, error) {
 	res := new(response.User)
 
 	query := fmt.Sprintf(`
@@ -34,7 +34,6 @@ func GetOneUser(id string) (response.User, error) {
 		FROM %s WHERE id=$1`, database.UsersTable,
 	)
 	err := database.Connect.Get(res, query, id)
-	fmt.Println(res)
 
 	return *res, err
 }
@@ -46,11 +45,8 @@ func UpdateUser(user request.User, id string) (response.User, error) {
 		return response.User{}, err
 	}
 
-	fmt.Println("IMG", user.Logo)
 	if user.Logo != "" {
-		fmt.Println("Deleting file")
 		old_path := userExist.Logo
-		fmt.Println(old_path)
 		if err := os.Remove(old_path); err != nil {
 			log.Println("Error in deleting image")
 		}
@@ -87,7 +83,7 @@ func UpdateUser(user request.User, id string) (response.User, error) {
 	return *res, nil
 }
 
-func DeleteUser(id string) error {
+func DeleteUser(id int) error {
 	userExist := new(entity.User)
 	query := fmt.Sprintf(`SELECT * FROM %s WHERE id = $1`, database.UsersTable)
 	if err := database.Connect.Get(userExist, query, id); err != nil {

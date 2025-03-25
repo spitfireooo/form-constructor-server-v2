@@ -42,7 +42,7 @@ func GetAllUsers(ctx *fiber.Ctx) error {
 // @Success 200 {object} response.User
 // @Router /api/v1/user/:id [get]
 func GetOneUser(ctx *fiber.Ctx) error {
-	id := ctx.Params("id")
+	id, _ := ctx.ParamsInt("id")
 
 	if res, err := service.GetOneUser(id); err != nil {
 		log.Println("Error in user service", err)
@@ -68,7 +68,6 @@ func GetOneUser(ctx *fiber.Ctx) error {
 func UpdateUser(ctx *fiber.Ctx) error {
 	body := new(request.User)
 	id := ctx.Params("id")
-	fmt.Println("id", id)
 
 	if err := ctx.BodyParser(body); err != nil {
 		log.Println("Error in parsing request", err)
@@ -129,7 +128,7 @@ func UpdateUser(ctx *fiber.Ctx) error {
 // @Success 200 {string} string
 // @Router /api/v1/user/:id [delete]
 func DeleteUser(ctx *fiber.Ctx) error {
-	id := ctx.Params("id")
+	id, _ := ctx.ParamsInt("id")
 
 	if err := service.DeleteUser(id); err != nil {
 		log.Println("Error in user service", err)

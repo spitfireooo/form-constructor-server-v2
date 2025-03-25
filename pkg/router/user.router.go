@@ -24,13 +24,19 @@ func UserRouter(group fiber.Router, path string) {
 			tag.Delete("/:id", controller_v1.DeleteTag)
 		}
 
-		permission := user.Group("/:userId/permission")
+		userPermission := user.Group("/:userId/permission")
 		{
-			permission.Post("/", controller_v1.CreatePermission)
-			permission.Get("/", controller_v1.GetAllPermissions)
-			permission.Get("/:id", controller_v1.GetOnePermission)
-			permission.Patch("/:id", controller_v1.UpdatePermission)
-			permission.Delete("/:id", controller_v1.DeletePermission)
+			userPermission.Post("/", controller_v1.CreatePermission)
+			userPermission.Get("/", controller_v1.GetUserPermissions)
+			userPermission.Delete("/", controller_v1.DeleteUserPermission)
 		}
+	}
+
+	permission := group.Group("/permission")
+	{
+		permission.Get("/", controller_v1.GetAllPermissions)
+		permission.Get("/:id", controller_v1.GetOnePermission)
+		permission.Patch("/:id", controller_v1.UpdatePermission)
+		permission.Delete("/:id", controller_v1.DeletePermission)
 	}
 }
