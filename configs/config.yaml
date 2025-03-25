@@ -8,5 +8,3 @@ db:
   host: "localhost"
   port: "5436"
   ssl_mode: "disable"
-
-

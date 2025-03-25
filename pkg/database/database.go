@@ -17,9 +17,10 @@ type ConnectConfig struct {
 }
 
 const (
-	UsersTable            = "users"
-	DialogsTable          = "dialogs"
-	MessagesTable         = "messages"
+	UsersTable    = "users"
+	DialogsTable  = "dialogs"
+	MessagesTable = "messages"
+
 	UserPermissionsTable  = "user_permissions"
 	TokensTable           = "tokens"
 	TagsTable             = "tags"
@@ -45,7 +46,7 @@ func DatabaseInit(con ConnectConfig) error {
 		return err
 	} else {
 		Connect = db
-		log.Println("Databa se connected...")
+		log.Println("Database connected...")
 	}
 
 	if err := Connect.Ping(); err != nil {

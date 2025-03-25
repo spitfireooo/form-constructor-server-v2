@@ -13,7 +13,6 @@ func CheckContentType(contentTypeFile string, contentTypes ...string) error {
 				return nil
 			}
 		}
-
 		return errors.New("not allowed type file")
 	} else {
 		return errors.New("not found content type to be checking")

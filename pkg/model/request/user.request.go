@@ -1,12 +1,12 @@
 package request
 
 type User struct {
-	Email    string  `json:"email" db:"email"`
-	Phone    *string `json:"phone" db:"phone"`
-	Address  *string `json:"address" db:"address"`
-	Password *string `json:"password" db:"password"`
-	Nickname *string `json:"nickname" db:"nickname"`
-	Logo     string  `json:"logo" db:"logo"`
+	Email    string  `json:"email,omitempty" db:"email" validate:"omitempty,email"`
+	Phone    *string `json:"phone,omitempty" db:"phone" validate:"omitempty,min=3,max=20"`
+	Address  *string `json:"address,omitempty" db:"address" validate:"omitempty,min=3"`
+	Password *string `json:"password,omitempty" db:"password" validate:"omitempty,min=6,max=30"`
+	Nickname *string `json:"nickname,omitempty" db:"nickname" validate:"omitempty,min=3,max=30"`
+	Logo     string  `json:"logo,omitempty" db:"logo" validate:"omitempty,image"`
 }
 
 type Token struct {

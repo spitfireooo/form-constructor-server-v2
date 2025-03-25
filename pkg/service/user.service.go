@@ -4,11 +4,14 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/database"
+	"github.com/spitfireooo/form-constructor-server-v2/pkg/model/entity"
+	"github.com/spitfireooo/form-constructor-server-v2/pkg/model/request"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/model/response"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/utils"
 	"io"
 	"log"
 	"net/http"
+	"os"
 )
 
 func GetAllUsers() ([]response.User, error) {
@@ -28,11 +31,79 @@ func GetOneUser(id string) (response.User, error) {
 
 	query := fmt.Sprintf(`
 		SELECT id, email, phone, address, nickname, logo, created_at, updated_at
-		FROM %s`, database.UsersTable,
+		FROM %s WHERE id=$1`, database.UsersTable,
 	)
-	err := database.Connect.Get(res, query)
+	err := database.Connect.Get(res, query, id)
+	fmt.Println(res)
 
 	return *res, err
+}
+
+func UpdateUser(user request.User, id string) (response.User, error) {
+	userExist := new(entity.User)
+	query := fmt.Sprintf(`SELECT * FROM %s WHERE id = $1`, database.UsersTable)
+	if err := database.Connect.Get(userExist, query, id); err != nil {
+		return response.User{}, err
+	}
+
+	fmt.Println("IMG", user.Logo)
+	if user.Logo != "" {
+		fmt.Println("Deleting file")
+		old_path := userExist.Logo
+		fmt.Println(old_path)
+		if err := os.Remove(old_path); err != nil {
+			log.Println("Error in deleting image")
+		}
+	}
+
+	res := new(response.User)
+
+	query = fmt.Sprintf(
+		`UPDATE %s SET
+    		email = COALESCE($1, email),
+    		phone = COALESCE($2, phone),
+    		address = COALESCE($3, address),
+    		password = COALESCE($4, password),
+    		nickname = COALESCE($5, nickname),
+    		logo = COALESCE($6, logo),
+          	updated_at = NOW()
+	  	WHERE id = $7
+	  	RETURNING id, email, phone, address, nickname, logo, created_at, updated_at`,
+		database.UsersTable,
+	)
+	if err := database.Connect.QueryRowx(
+		query,
+		user.Email,
+		user.Phone,
+		user.Address,
+		user.Password,
+		user.Nickname,
+		user.Logo,
+		id,
+	).Scan(&res.ID, &res.Email, &res.Phone, &res.Address, &res.Nickname, &res.Logo, &res.CreatedAt, &res.UpdatedAt); err != nil {
+		return response.User{}, err
+	}
+
+	return *res, nil
+}
+
+func DeleteUser(id string) error {
+	userExist := new(entity.User)
+	query := fmt.Sprintf(`SELECT * FROM %s WHERE id = $1`, database.UsersTable)
+	if err := database.Connect.Get(userExist, query, id); err != nil {
+		return err
+	}
+
+	query = fmt.Sprintf(`DELETE FROM %s WHERE id = $1`, database.UsersTable)
+	if _, err := database.Connect.Exec(query, id); err != nil {
+		return err
+	}
+
+	if err := os.Remove(userExist.Logo); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func FileUpload(ctx *fiber.Ctx) error {
@@ -46,10 +117,12 @@ func FileUpload(ctx *fiber.Ctx) error {
 		buffer := make([]byte, 512)
 		n, err := file.Read(buffer)
 		if err != nil && err != io.EOF {
+			log.Println("Error in file reading", err)
 		}
 
 		_, err = file.Seek(0, io.SeekStart)
 		if err != nil {
+			log.Println("Error in file upload", err)
 		}
 
 		contentTypeFromFile := http.DetectContentType(buffer[:n])
