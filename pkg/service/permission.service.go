@@ -78,18 +78,14 @@ func DeletePermission(id int) error {
 	}
 
 	query = fmt.Sprintf(`DELETE FROM %s WHERE id = $1`, database.UserPermissionsTable)
-	if _, err := database.Connect.Exec(query, id); err != nil {
-		return err
-	}
+	_, err := database.Connect.Exec(query, id)
 
-	return nil
+	return err
 }
 
 func DeleteUserPermissions(id int) error {
 	query := fmt.Sprintf(`DELETE FROM %s WHERE user_id = $1`, database.UserPermissionsTable)
-	if _, err := database.Connect.Exec(query, id); err != nil {
-		return err
-	}
+	_, err := database.Connect.Exec(query, id)
 
-	return nil
+	return err
 }

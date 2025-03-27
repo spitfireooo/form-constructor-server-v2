@@ -30,7 +30,7 @@ type UserTag struct {
 }
 
 type Tag struct {
-	ID          uint   `json:"id" db:"id"`
-	Title       string `json:"title" db:"title"`
-	Description string `json:"description" db:"description"`
+	ID          uint    `json:"id" db:"id"`
+	Title       string  `json:"title" db:"title"`
+	Description *string `json:"description" db:"description"`
 }

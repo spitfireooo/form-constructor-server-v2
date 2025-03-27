@@ -141,3 +141,162 @@ func DeleteUser(ctx *fiber.Ctx) error {
 		})
 	}
 }
+
+// @Summary	CreateUserTag
+// @Tags User
+// @Description Create User Tag
+// @ID create-user-tag
+// @Accept json
+// @Produce	json
+// @Param input	body request.UserTag true "body info"
+// @Success 200 {object} response.UserTag
+// @Router /api/v1/user/:userId/tag [post]
+func CreateUserTag(ctx *fiber.Ctx) error {
+	body := new(request.UserTag)
+	userId, _ := ctx.ParamsInt("userId")
+
+	if err := ctx.BodyParser(body); err != nil {
+		log.Println("Error in parsing request", err)
+		return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"message": "Error in parsing request",
+		})
+	}
+
+	if tag, err := service.CreateUserTag(*body, userId); err != nil {
+		log.Println("Error in permission service", err)
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Error in user service",
+		})
+	} else {
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+			"data": tag,
+		})
+	}
+}
+
+// @Summary	GetUserTags
+// @Tags User
+// @Description Get User Tags
+// @ID get-user-tags
+// @Accept json
+// @Produce	json
+// @Success 200 {array} response.UserTag
+// @Router /api/v1/user/:userId/tag [get]
+func GetUserTags(ctx *fiber.Ctx) error {
+	userId, _ := ctx.ParamsInt("userId")
+
+	if tags, err := service.GetUserTags(userId); err != nil {
+		log.Println("Error in permission service", err)
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Error in user service",
+		})
+	} else {
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+			"data": tags,
+		})
+	}
+}
+
+// @Summary	GetUserTag
+// @Tags User
+// @Description Get User Tag
+// @ID get-user-tag
+// @Accept json
+// @Produce	json
+// @Success 200 {object} response.UserTag
+// @Router /api/v1/user/:userId/tag/:id [get]
+func GetUserTag(ctx *fiber.Ctx) error {
+	userId, _ := ctx.ParamsInt("userId")
+	id, _ := ctx.ParamsInt("id")
+
+	if tags, err := service.GetUserTag(userId, id); err != nil {
+		log.Println("Error in permission service", err)
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Error in user service",
+		})
+	} else {
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+			"data": tags,
+		})
+	}
+}
+
+// @Summary	UpdateUserTag
+// @Tags User
+// @Description Update User Tag
+// @ID update-user-tag
+// @Accept json
+// @Produce	json
+// @Param input	body request.UserTagUpdate true "body info"
+// @Success 200 {object} response.UserTag
+// @Router /api/v1/user/:userId/tag/:id [patch]
+func UpdateUserTag(ctx *fiber.Ctx) error {
+	body := new(request.UserTagUpdate)
+	userId, _ := ctx.ParamsInt("userId")
+	id, _ := ctx.ParamsInt("id")
+
+	if err := ctx.BodyParser(body); err != nil {
+		log.Println("Error in parsing request", err)
+		return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"message": "Error in parsing request",
+		})
+	}
+
+	if tag, err := service.UpdateUserTag(*body, userId, id); err != nil {
+		log.Println("Error in permission service", err)
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Error in user service",
+		})
+	} else {
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+			"data": tag,
+		})
+	}
+}
+
+// @Summary DeleteUserTags
+// @Tags User
+// @Description Delete User Tags
+// @ID delete-user-tags
+// @Accept json
+// @Produce	json
+// @Success 200 {string} string
+// @Router /api/v1/user/:userId/tag [delete]
+func DeleteUserTags(ctx *fiber.Ctx) error {
+	userId, _ := ctx.ParamsInt("userId")
+
+	if err := service.DeleteUserTags(userId); err != nil {
+		log.Println("Error in permission service", err)
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Error in user service",
+		})
+	} else {
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+			"message": "User tags deleted",
+		})
+	}
+}
+
+// @Summary DeleteUserTag
+// @Tags User
+// @Description Delete User Tag
+// @ID delete-user-tag
+// @Accept json
+// @Produce	json
+// @Success 200 {string} string
+// @Router /api/v1/user/:userId/tag/:id [delete]
+func DeleteUserTag(ctx *fiber.Ctx) error {
+	userId, _ := ctx.ParamsInt("userId")
+	id, _ := ctx.ParamsInt("id")
+
+	if err := service.DeleteUserTag(userId, id); err != nil {
+		log.Println("Error in permission service", err)
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Error in user service",
+		})
+	} else {
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+			"message": "User tag deleted",
+		})
+	}
+}

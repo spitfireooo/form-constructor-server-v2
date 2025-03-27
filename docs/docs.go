@@ -768,39 +768,6 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
-            "post": {
-                "description": "Create Permission",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Permission"
-                ],
-                "summary": "CreatePermission",
-                "operationId": "create-permission",
-                "parameters": [
-                    {
-                        "description": "body info",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.UserPermission"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.UserPermission"
-                        }
-                    }
-                }
             }
         },
         "/api/v1/permission/:id": {
@@ -877,6 +844,145 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/response.UserPermission"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/tag": {
+            "get": {
+                "description": "Get All Tags",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "GetAllTags",
+                "operationId": "get-all-tags",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.Tag"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create Tag",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "CreateTag",
+                "operationId": "create-tag",
+                "parameters": [
+                    {
+                        "description": "body info",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.Tag"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Tag"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/tag/:id": {
+            "get": {
+                "description": "Get One Tag",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "GetOneTag",
+                "operationId": "get-one-tag",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Tag"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete Tag",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "DeleteTag",
+                "operationId": "delete-tag",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update Tag",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "UpdateTag",
+                "operationId": "update-tag",
+                "parameters": [
+                    {
+                        "description": "body info",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.TagUpdate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Tag"
                         }
                     }
                 }
@@ -988,9 +1094,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/user/:userId/tag": {
+        "/api/v1/user/:userId/permission": {
             "get": {
-                "description": "Get All Tags",
+                "description": "Get User Permissions",
                 "consumes": [
                     "application/json"
                 ],
@@ -998,24 +1104,24 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Tag"
+                    "Permission"
                 ],
-                "summary": "GetAllTags",
-                "operationId": "get-all-tags",
+                "summary": "GetUserPermissions",
+                "operationId": "get-user-permissions",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/response.Tag"
+                                "$ref": "#/definitions/response.UserPermission"
                             }
                         }
                     }
                 }
             },
-            "post": {
-                "description": "Create Tag",
+            "delete": {
+                "description": "Delete Permissions",
                 "consumes": [
                     "application/json"
                 ],
@@ -1023,10 +1129,59 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tag"
+                    "Permission"
                 ],
-                "summary": "CreateTag",
-                "operationId": "create-tag",
+                "summary": "DeletePermissions",
+                "operationId": "delete-permissions",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user/:userId/tag": {
+            "get": {
+                "description": "Get User Tags",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "GetUserTags",
+                "operationId": "get-user-tags",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.UserTag"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create User Tag",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "CreateUserTag",
+                "operationId": "create-user-tag",
                 "parameters": [
                     {
                         "description": "body info",
@@ -1034,7 +1189,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.Tag"
+                            "$ref": "#/definitions/request.UserTag"
                         }
                     }
                 ],
@@ -1042,7 +1197,29 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Tag"
+                            "$ref": "#/definitions/response.UserTag"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete User Tags",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "DeleteUserTags",
+                "operationId": "delete-user-tags",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 }
@@ -1050,7 +1227,7 @@ const docTemplate = `{
         },
         "/api/v1/user/:userId/tag/:id": {
             "get": {
-                "description": "Get One Tag",
+                "description": "Get User Tag",
                 "consumes": [
                     "application/json"
                 ],
@@ -1058,21 +1235,21 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Tag"
+                    "User"
                 ],
-                "summary": "GetOneTag",
-                "operationId": "get-one-tag",
+                "summary": "GetUserTag",
+                "operationId": "get-user-tag",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Tag"
+                            "$ref": "#/definitions/response.UserTag"
                         }
                     }
                 }
             },
             "delete": {
-                "description": "Delete Tag",
+                "description": "Delete User Tag",
                 "consumes": [
                     "application/json"
                 ],
@@ -1080,10 +1257,10 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Tag"
+                    "User"
                 ],
-                "summary": "DeleteTag",
-                "operationId": "delete-tag",
+                "summary": "DeleteUserTag",
+                "operationId": "delete-user-tag",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1094,7 +1271,7 @@ const docTemplate = `{
                 }
             },
             "patch": {
-                "description": "Update Tag",
+                "description": "Update User Tag",
                 "consumes": [
                     "application/json"
                 ],
@@ -1102,10 +1279,10 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Tag"
+                    "User"
                 ],
-                "summary": "UpdateTag",
-                "operationId": "update-tag",
+                "summary": "UpdateUserTag",
+                "operationId": "update-user-tag",
                 "parameters": [
                     {
                         "description": "body info",
@@ -1113,7 +1290,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.Tag"
+                            "$ref": "#/definitions/request.UserTagUpdate"
                         }
                     }
                 ],
@@ -1121,7 +1298,42 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Tag"
+                            "$ref": "#/definitions/response.UserTag"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user/permission/:userId": {
+            "post": {
+                "description": "Create Permission",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "CreatePermission",
+                "operationId": "create-permission",
+                "parameters": [
+                    {
+                        "description": "body info",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UserPermission"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.UserPermission"
                         }
                     }
                 }
@@ -1208,10 +1420,27 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 3
                 },
                 "title": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 3
+                }
+            }
+        },
+        "request.TagUpdate": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "minLength": 3
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 3
                 }
             }
         },
@@ -1219,7 +1448,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "address": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 3
                 },
                 "email": {
                     "type": "string"
@@ -1228,13 +1458,19 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "nickname": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 3
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 6
                 },
                 "phone": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 3
                 }
             }
         },
@@ -1243,6 +1479,25 @@ const docTemplate = `{
             "properties": {
                 "permission": {
                     "type": "string"
+                }
+            }
+        },
+        "request.UserTag": {
+            "type": "object",
+            "properties": {
+                "tag_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "request.UserTagUpdate": {
+            "type": "object",
+            "properties": {
+                "tag_id": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -1377,7 +1632,7 @@ const docTemplate = `{
                 "address": {
                     "type": "string"
                 },
-                "create_at": {
+                "created_at": {
                     "type": "string"
                 },
                 "email": {
@@ -1395,7 +1650,7 @@ const docTemplate = `{
                 "phone": {
                     "type": "string"
                 },
-                "update_at": {
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -1408,6 +1663,20 @@ const docTemplate = `{
                 },
                 "permission": {
                     "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "response.UserTag": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "tag_id": {
+                    "type": "integer"
                 },
                 "user_id": {
                     "type": "integer"

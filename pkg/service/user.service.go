@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/database"
@@ -29,9 +30,10 @@ func GetAllUsers() ([]response.User, error) {
 func GetOneUser(id int) (response.User, error) {
 	res := new(response.User)
 
+	fmt.Println(id)
 	query := fmt.Sprintf(`
 		SELECT id, email, phone, address, nickname, logo, created_at, updated_at
-		FROM %s WHERE id=$1`, database.UsersTable,
+		FROM %s WHERE id = $1`, database.UsersTable,
 	)
 	err := database.Connect.Get(res, query, id)
 
@@ -145,4 +147,109 @@ func FileUpload(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"filename": filename,
 	})
+}
+
+func CreateUserTag(tag request.UserTag, userId int) (response.UserTag, error) {
+	tagExist := new(entity.UserTag)
+	query := fmt.Sprintf(`SELECT * FROM %s WHERE user_id = $1 AND tag_id =$2`, database.UserTagsTable)
+	if err := database.Connect.Get(tagExist, query, userId, tag.TagID); err == nil {
+		return response.UserTag{}, errors.New("user exist")
+	}
+
+	res := new(response.UserTag)
+
+	query = fmt.Sprintf(
+		`INSERT INTO %s (user_id, tag_id) VALUES ($1, $2) RETURNING *`,
+		database.UserTagsTable,
+	)
+	err := database.Connect.
+		QueryRowx(query, userId, tag.TagID).
+		Scan(&res.ID, &res.UserID, &res.TagID)
+
+	return *res, err
+}
+
+func GetUserTags(userId int) ([]response.UserTag, error) {
+	res := new([]response.UserTag)
+
+	query := fmt.Sprintf(
+		`SELECT * FROM %s WHERE user_id = $1`,
+		database.UserTagsTable,
+	)
+	err := database.Connect.Select(res, query, userId)
+
+	return *res, err
+}
+
+func GetUserTag(userId, id int) (response.UserTag, error) {
+	res := new(response.UserTag)
+
+	query := fmt.Sprintf(
+		`SELECT * FROM %s WHERE user_id = $1 AND tag_id = $2`,
+		database.UserTagsTable,
+	)
+	err := database.Connect.Get(res, query, userId, id)
+
+	return *res, err
+}
+
+func UpdateUserTag(tag request.UserTagUpdate, userId, id int) (response.UserTag, error) {
+	userTagExist := new(entity.UserTag)
+	query := fmt.Sprintf(
+		`SELECT * FROM %s WHERE user_id = $1 AND tag_id = $2`,
+		database.UserTagsTable,
+	)
+	if err := database.Connect.Get(userTagExist, query, userId, id); err != nil {
+		return response.UserTag{}, err
+	}
+
+	if _, err := GetOneUser(userId); err != nil {
+		return response.UserTag{}, err
+	}
+	if _, err := GetOneTag(id); err != nil {
+		return response.UserTag{}, err
+	}
+
+	res := new(response.UserTag)
+
+	query = fmt.Sprintf(
+		`UPDATE %s SET 
+	    	user_id = COALESCE($1, user_id), 
+            tag_id = COALESCE($2, tag_id)
+	  	WHERE user_id = $3 AND tag_id = $4 RETURNING *`,
+		database.UserTagsTable,
+	)
+	if err := database.Connect.
+		QueryRowx(query, tag.UserId, tag.TagID, userId, id).
+		Scan(&res.ID, &res.UserID, &res.TagID); err != nil {
+		return response.UserTag{}, err
+	}
+
+	return *res, nil
+}
+
+func DeleteUserTags(userId int) error {
+	tagExist := new(entity.UserTag)
+	query := fmt.Sprintf(`SELECT * FROM %s WHERE user_id = $1`, database.UserTagsTable)
+	if err := database.Connect.Get(tagExist, query, userId); err != nil {
+		return err
+	}
+
+	query = fmt.Sprintf(`DELETE FROM %s WHERE user_id = $1`, database.UserTagsTable)
+	_, err := database.Connect.Exec(query, userId)
+
+	return err
+}
+
+func DeleteUserTag(userId, id int) error {
+	tagExist := new(entity.UserTag)
+	query := fmt.Sprintf(`SELECT * FROM %s WHERE user_id = $1 AND tag_id = $2`, database.UserTagsTable)
+	if err := database.Connect.Get(tagExist, query, userId, id); err != nil {
+		return err
+	}
+
+	query = fmt.Sprintf(`DELETE FROM %s WHERE user_id = $1 AND tag_id = $2`, database.UserTagsTable)
+	_, err := database.Connect.Exec(query, userId, id)
+
+	return err
 }

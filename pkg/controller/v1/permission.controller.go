@@ -61,10 +61,10 @@ func GetAllPermissions(ctx *fiber.Ctx) error {
 	}
 }
 
-// @Summary	GetAllPermissions
+// @Summary	GetUserPermissions
 // @Tags Permission
-// @Description Get All Permissions
-// @ID get-all-permissions
+// @Description Get User Permissions
+// @ID get-user-permissions
 // @Accept json
 // @Produce	json
 // @Success 200 {array} response.UserPermission
@@ -139,10 +139,10 @@ func UpdatePermission(ctx *fiber.Ctx) error {
 	}
 }
 
-// @Summary DeletePermission
+// @Summary DeletePermissions
 // @Tags Permission
-// @Description Delete Permission
-// @ID delete-permission
+// @Description Delete Permissions
+// @ID delete-permissions
 // @Accept json
 // @Produce	json
 // @Success 200 {string} string

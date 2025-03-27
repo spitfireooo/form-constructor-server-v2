@@ -21,7 +21,17 @@ type UserTag struct {
 	TagID uint `json:"tag_id" db:"tag_id"`
 }
 
+type UserTagUpdate struct {
+	UserId *uint `json:"user_id,omitempty" db:"user_id"`
+	TagID  *uint `json:"tag_id,omitempty" db:"tag_id"`
+}
+
 type Tag struct {
-	Title       string `json:"title" db:"title"`
-	Description string `json:"description" db:"description"`
+	Title       string  `json:"title" db:"title" validate:"min=3,max=30"`
+	Description *string `json:"description,omitempty" db:"description" validate:"omitempty,min=3"`
+}
+
+type TagUpdate struct {
+	Title       *string `json:"title,omitempty" db:"title" validate:"omitempty,min=3,max=30"`
+	Description *string `json:"description,omitempty" db:"description" validate:"omitempty,min=3"`
 }

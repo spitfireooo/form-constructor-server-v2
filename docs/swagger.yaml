@@ -50,29 +50,61 @@ definitions:
   request.Tag:
     properties:
       description:
+        minLength: 3
         type: string
       title:
+        maxLength: 30
+        minLength: 3
+        type: string
+    type: object
+  request.TagUpdate:
+    properties:
+      description:
+        minLength: 3
+        type: string
+      title:
+        maxLength: 30
+        minLength: 3
         type: string
     type: object
   request.User:
     properties:
       address:
+        minLength: 3
         type: string
       email:
         type: string
       logo:
         type: string
       nickname:
+        maxLength: 30
+        minLength: 3
         type: string
       password:
+        maxLength: 30
+        minLength: 6
         type: string
       phone:
+        maxLength: 20
+        minLength: 3
         type: string
     type: object
   request.UserPermission:
     properties:
       permission:
         type: string
+    type: object
+  request.UserTag:
+    properties:
+      tag_id:
+        type: integer
+    type: object
+  request.UserTagUpdate:
+    properties:
+      tag_id:
+        type: integer
+      user_id:
+        type: integer
     type: object
   response.Field:
     properties:
@@ -159,7 +191,7 @@ definitions:
     properties:
       address:
         type: string
-      create_at:
+      created_at:
         type: string
       email:
         type: string
@@ -171,7 +203,7 @@ definitions:
         type: string
       phone:
         type: string
-      update_at:
+      updated_at:
         type: string
     type: object
   response.UserPermission:
@@ -180,6 +212,15 @@ definitions:
         type: integer
       permission:
         type: string
+      user_id:
+        type: integer
+    type: object
+  response.UserTag:
+    properties:
+      id:
+        type: integer
+      tag_id:
+        type: integer
       user_id:
         type: integer
     type: object
@@ -691,28 +732,6 @@ paths:
       summary: GetAllPermissions
       tags:
       - Permission
-    post:
-      consumes:
-      - application/json
-      description: Create Permission
-      operationId: create-permission
-      parameters:
-      - description: body info
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/request.UserPermission'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/response.UserPermission'
-      summary: CreatePermission
-      tags:
-      - Permission
   /api/v1/permission/:id:
     delete:
       consumes:
@@ -766,6 +785,99 @@ paths:
       summary: UpdatePermission
       tags:
       - Permission
+  /api/v1/tag:
+    get:
+      consumes:
+      - application/json
+      description: Get All Tags
+      operationId: get-all-tags
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.Tag'
+            type: array
+      summary: GetAllTags
+      tags:
+      - Tag
+    post:
+      consumes:
+      - application/json
+      description: Create Tag
+      operationId: create-tag
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.Tag'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Tag'
+      summary: CreateTag
+      tags:
+      - Tag
+  /api/v1/tag/:id:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Tag
+      operationId: delete-tag
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: DeleteTag
+      tags:
+      - Tag
+    get:
+      consumes:
+      - application/json
+      description: Get One Tag
+      operationId: get-one-tag
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Tag'
+      summary: GetOneTag
+      tags:
+      - Tag
+    patch:
+      consumes:
+      - application/json
+      description: Update Tag
+      operationId: update-tag
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.TagUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Tag'
+      summary: UpdateTag
+      tags:
+      - Tag
   /api/v1/user:
     get:
       consumes:
@@ -837,52 +949,12 @@ paths:
       summary: UpdateUser
       tags:
       - User
-  /api/v1/user/:userId/tag:
-    get:
-      consumes:
-      - application/json
-      description: Get All Tags
-      operationId: get-all-tags
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/response.Tag'
-            type: array
-      summary: GetAllTags
-      tags:
-      - Tag
-    post:
-      consumes:
-      - application/json
-      description: Create Tag
-      operationId: create-tag
-      parameters:
-      - description: body info
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/request.Tag'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/response.Tag'
-      summary: CreateTag
-      tags:
-      - tag
-  /api/v1/user/:userId/tag/:id:
+  /api/v1/user/:userId/permission:
     delete:
       consumes:
       - application/json
-      description: Delete Tag
-      operationId: delete-tag
+      description: Delete Permissions
+      operationId: delete-permissions
       produces:
       - application/json
       responses:
@@ -890,44 +962,155 @@ paths:
           description: OK
           schema:
             type: string
-      summary: DeleteTag
+      summary: DeletePermissions
       tags:
-      - Tag
+      - Permission
     get:
       consumes:
       - application/json
-      description: Get One Tag
-      operationId: get-one-tag
+      description: Get User Permissions
+      operationId: get-user-permissions
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Tag'
-      summary: GetOneTag
+            items:
+              $ref: '#/definitions/response.UserPermission'
+            type: array
+      summary: GetUserPermissions
       tags:
-      - Tag
-    patch:
+      - Permission
+  /api/v1/user/:userId/tag:
+    delete:
       consumes:
       - application/json
-      description: Update Tag
-      operationId: update-tag
+      description: Delete User Tags
+      operationId: delete-user-tags
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: DeleteUserTags
+      tags:
+      - User
+    get:
+      consumes:
+      - application/json
+      description: Get User Tags
+      operationId: get-user-tags
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.UserTag'
+            type: array
+      summary: GetUserTags
+      tags:
+      - User
+    post:
+      consumes:
+      - application/json
+      description: Create User Tag
+      operationId: create-user-tag
       parameters:
       - description: body info
         in: body
         name: input
         required: true
         schema:
-          $ref: '#/definitions/request.Tag'
+          $ref: '#/definitions/request.UserTag'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Tag'
-      summary: UpdateTag
+            $ref: '#/definitions/response.UserTag'
+      summary: CreateUserTag
       tags:
-      - Tag
+      - User
+  /api/v1/user/:userId/tag/:id:
+    delete:
+      consumes:
+      - application/json
+      description: Delete User Tag
+      operationId: delete-user-tag
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: DeleteUserTag
+      tags:
+      - User
+    get:
+      consumes:
+      - application/json
+      description: Get User Tag
+      operationId: get-user-tag
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.UserTag'
+      summary: GetUserTag
+      tags:
+      - User
+    patch:
+      consumes:
+      - application/json
+      description: Update User Tag
+      operationId: update-user-tag
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserTagUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.UserTag'
+      summary: UpdateUserTag
+      tags:
+      - User
+  /api/v1/user/permission/:userId:
+    post:
+      consumes:
+      - application/json
+      description: Create Permission
+      operationId: create-permission
+      parameters:
+      - description: body info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserPermission'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.UserPermission'
+      summary: CreatePermission
+      tags:
+      - Permission
 swagger: "2.0"
