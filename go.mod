@@ -11,7 +11,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.10.9
 	github.com/spf13/viper v1.20.0
-	github.com/spitfireooo/form-constructor-auth v0.0.0-20250324134033-b4adaa5b0508
+	github.com/spitfireooo/form-constructor-auth v0.0.0-20250327055024-57952c08e1f5
 	github.com/swaggo/swag v1.16.4
 )
 

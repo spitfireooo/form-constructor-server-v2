@@ -2,7 +2,6 @@ package router
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/spitfireooo/form-constructor-auth/pkg/middlewares"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/controller/v1"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/service"
 )
@@ -10,7 +9,7 @@ import (
 func UserRouter(group fiber.Router, path string) {
 	user := group.Group(path)
 	{
-		user.Get("/", middleware.IsAuthorized, controller_v1.GetAllUsers)
+		user.Get("/", controller_v1.GetAllUsers)
 		user.Get("/:id", controller_v1.GetOneUser)
 		user.Patch("/:id", controller_v1.UpdateUser)
 		user.Delete("/:id", controller_v1.DeleteUser)
