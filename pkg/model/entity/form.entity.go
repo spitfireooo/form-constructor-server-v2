@@ -4,7 +4,7 @@ type Form struct {
 	ID          uint   `json:"id" db:"id"`
 	Title       string `json:"title" db:"title"`
 	Slug        string `json:"slug" db:"slug"`
-	Description uint   `json:"description" db:"description"`
+	Description string `json:"description" db:"description"`
 	Logo        string `json:"logo" db:"logo"`
 	AuthorId    uint   `json:"author_id" db:"author_id"`
 }

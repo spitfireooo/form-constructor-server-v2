@@ -13,7 +13,7 @@ func Router(r *fiber.App) {
 		{
 			UserRouter(v1, "/user")
 			FormRouter(v1, "/form")
-			FieldRouter(v1, "/field/:fieldId")
+			FieldRouter(v1, "/field")
 		}
 
 		v2 := api.Group("/v2")

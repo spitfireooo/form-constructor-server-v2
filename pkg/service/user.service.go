@@ -30,7 +30,6 @@ func GetAllUsers() ([]response.User, error) {
 func GetOneUser(id int) (response.User, error) {
 	res := new(response.User)
 
-	fmt.Println(id)
 	query := fmt.Sprintf(`
 		SELECT id, email, phone, address, nickname, logo, created_at, updated_at
 		FROM %s WHERE id = $1`, database.UsersTable,

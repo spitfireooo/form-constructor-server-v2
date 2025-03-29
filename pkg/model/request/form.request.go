@@ -1,18 +1,35 @@
 package request
 
 type Form struct {
-	Title       string `json:"title" db:"title"`
-	Slug        string `json:"slug" db:"slug"`
-	Description uint   `json:"description" db:"description"`
-	Logo        string `json:"logo" db:"logo"`
+	Title       string  `json:"title" db:"title" validate:"min=3,max=30"`
+	Slug        string  `json:"slug" db:"slug" validate:"min=3,max=50"`
+	Description *string `json:"description,omitempty" db:"description" validate:"omitempty,min=5"`
+	Logo        *string `json:"logo,omitempty" db:"logo" validate:"omitempty,image"`
+}
+
+type FormUpdate struct {
+	Title       *string `json:"title,omitempty" db:"title" validate:"omitempty,min=3,max=30"`
+	Slug        *string `json:"slug,omitempty" db:"slug" validate:"omitempty,min=3,max=50"`
+	Description *string `json:"description,omitempty" db:"description" validate:"omitempty,min=5"`
+	Logo        *string `json:"logo,omitempty" db:"logo" validate:"omitempty,image"`
+	AuthorId    *uint   `json:"author_id,omitempty" db:"logo" validate:"omitempty"`
 }
 
 type Field struct {
-	Name     string `json:"name" db:"name"`
+	Name     string `json:"name" db:"name" validate:"min=2"`
 	Type     string `json:"type" db:"type"`
-	Label    string `json:"label" db:"label"`
+	Label    string `json:"label" db:"label" validate:"min=2"`
 	OrderOf  int    `json:"order_of" db:"order_of"`
 	Required bool   `json:"required" db:"required"`
+}
+
+type FieldUpdate struct {
+	FormID   *uint   `json:"form_id,omitempty" db:"form_id" validate:"omitempty"`
+	Name     *string `json:"name,omitempty" db:"name" validate:"omitempty,min=2"`
+	Type     *string `json:"type,omitempty" db:"type" validate:"omitempty"`
+	Label    *string `json:"label,omitempty" db:"label" validate:"omitempty,min=2"`
+	OrderOf  *int    `json:"order_of,omitempty" db:"order_of" validate:"omitempty"`
+	Required *bool   `json:"required,omitempty" db:"required" validate:"omitempty"`
 }
 
 type FieldVariants struct {

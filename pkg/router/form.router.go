@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/gofiber/fiber/v2"
+	middleware "github.com/spitfireooo/form-constructor-auth/pkg/middlewares"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/controller/v1"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/controller/v2"
 )
@@ -9,19 +10,18 @@ import (
 func FormRouter(group fiber.Router, path string) {
 	form := group.Group(path)
 	{
-		form.Post("/", controller_v1.CreateForm)
+		form.Post("/", middleware.IsAuthorized, controller_v1.CreateFormAuth)
 		form.Get("/", controller_v1.GetAllForms)
 		form.Get("/:id", controller_v1.GetOneForm)
+		form.Post("/:id", controller_v1.CreateForm)
 		form.Patch("/:id", controller_v1.UpdateForm)
 		form.Delete("/:id", controller_v1.DeleteForm)
 
 		field := form.Group("/:formId/field")
 		{
+			field.Get("/", controller_v1.GetAllFormFields)
 			field.Post("/", controller_v1.CreateField)
-			field.Get("/", controller_v1.GetAllFields)
-			field.Get("/:id", controller_v1.GetOneField)
-			field.Patch("/:id", controller_v1.UpdateField)
-			field.Delete("/:id", controller_v1.DeleteField)
+			field.Delete("/", controller_v1.DeleteFormFields)
 		}
 	}
 }
@@ -29,7 +29,12 @@ func FormRouter(group fiber.Router, path string) {
 func FieldRouter(group fiber.Router, path string) {
 	field := group.Group(path)
 	{
-		multiply := field.Group("/multiply")
+		field.Get("/", controller_v1.GetAllFields)
+		field.Get("/:id", controller_v1.GetOneField)
+		field.Patch("/:id", controller_v1.UpdateField)
+		field.Delete("/:id", controller_v1.DeleteField)
+
+		multiply := field.Group("/:fieldId/multiply")
 		{
 			multiply.Post("/", controller_v1.CreateFieldMultiply)
 			multiply.Get("/", controller_v1.GetFieldMultiply)
@@ -37,7 +42,7 @@ func FieldRouter(group fiber.Router, path string) {
 			multiply.Delete("/", controller_v1.DeleteFieldMultiply)
 		}
 
-		placeholder := field.Group("/placeholder")
+		placeholder := field.Group("/:fieldId/placeholder")
 		{
 			placeholder.Post("/", controller_v1.CreateFieldPlaceholder)
 			placeholder.Get("/", controller_v1.GetFieldPlaceholder)
@@ -45,7 +50,7 @@ func FieldRouter(group fiber.Router, path string) {
 			placeholder.Delete("/", controller_v1.DeleteFieldPlaceholder)
 		}
 
-		fieldRange := field.Group("/range")
+		fieldRange := field.Group("/:fieldId/range")
 		{
 			fieldRange.Post("/", controller_v1.CreateFieldRange)
 			fieldRange.Get("/", controller_v1.GetFieldRange)
@@ -53,7 +58,7 @@ func FieldRouter(group fiber.Router, path string) {
 			fieldRange.Delete("/", controller_v1.DeleteFieldRange)
 		}
 
-		variants := field.Group("/variants")
+		variants := field.Group("/:fieldId/variants")
 		{
 			variants.Post("/", controller_v1.CreateFieldVariants)
 			variants.Get("/", controller_v1.GetFieldVariants)
