@@ -3,12 +3,13 @@ package controller_v1
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/model/request"
+	"github.com/spitfireooo/form-constructor-server-v2/pkg/model/response"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/service"
 	"log"
 	"net/http"
 )
 
-// @Summary	CreateResults
+// @Summary	CreateResult
 // @Tags Result
 // @Description Create Result
 // @ID create-result
@@ -16,9 +17,12 @@ import (
 // @Produce	json
 // @Param input	body request.Result true "body info"
 // @Success 200 {object} response.Result
-// @Router /api/v1/result [post]
+// @Router /api/v1/result/field/:fieldId [post]
 func CreateResult(ctx *fiber.Ctx) error {
+	fieldID, _ := ctx.ParamsInt("fieldId")
+
 	body := new(request.Result)
+	body.FieldID = uint(fieldID)
 
 	if err := ctx.BodyParser(body); err != nil {
 		log.Println("Error in parsing request", err)
@@ -37,6 +41,49 @@ func CreateResult(ctx *fiber.Ctx) error {
 			"data": res,
 		})
 	}
+}
+
+// @Summary	CreateResults
+// @Tags Result
+// @Description Create Results
+// @ID create-results
+// @Accept json
+// @Produce	json
+// @Param input	body request.Result true "body info"
+// @Success 200 {array} response.Result
+// @Router /api/v1/result [post]
+func CreateResults(ctx *fiber.Ctx) error {
+	body := new([]request.Result)
+
+	if err := ctx.BodyParser(body); err != nil {
+		log.Println("Error in parsing request", err)
+		return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"message": "Error in parsing request",
+		})
+	}
+
+	if len(*body) < 1 {
+		return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"message": "Clear body",
+		})
+	}
+
+	var res []response.Result
+
+	for _, item := range *body {
+		if result, err := service.CreateResult(item); err != nil {
+			log.Println("Error in result service", err)
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Error in result service",
+			})
+		} else {
+			res = append(res, result)
+		}
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"data": res,
+	})
 }
 
 // @Summary	GetAllResults
