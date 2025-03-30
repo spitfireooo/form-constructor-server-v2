@@ -14,6 +14,7 @@ func Router(r *fiber.App) {
 			UserRouter(v1, "/user")
 			FormRouter(v1, "/form")
 			FieldRouter(v1, "/field")
+			ResultRouter(v1, "/result")
 		}
 
 		v2 := api.Group("/v2")

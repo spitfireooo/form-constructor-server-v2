@@ -60,11 +60,18 @@ func FieldRouter(group fiber.Router, path string) {
 
 		variants := field.Group("/:fieldId/variants")
 		{
-			variants.Post("/", controller_v1.CreateFieldVariants)
+			variants.Post("/", controller_v1.CreateFieldVariant)
 			variants.Get("/", controller_v1.GetFieldVariants)
-			variants.Patch("/", controller_v1.UpdateFieldVariants)
 			variants.Delete("/", controller_v1.DeleteFieldVariants)
 		}
+	}
+
+	variants := group.Group("/variants")
+	{
+		variants.Get("/", controller_v1.GetAllFieldVariants)
+		variants.Get("/:id", controller_v1.GetOneFieldVariants)
+		variants.Patch("/:id", controller_v1.UpdateFieldVariants)
+		variants.Delete("/:id", controller_v1.DeleteOneFieldVariants)
 	}
 }
 

@@ -37,6 +37,11 @@ type FieldVariants struct {
 	Name    string `json:"name" db:"name"`
 }
 
+type FieldVariantsUpdate struct {
+	Variant *string `json:"variant,omitempty" db:"variant" validate:"omitempty,min=3"`
+	Name    *string `json:"name,omitempty" db:"name" validate:"omitempty,min=3"`
+}
+
 type FieldRange struct {
 	Min int `json:"min" db:"min"`
 	Max int `json:"max" db:"max"`
