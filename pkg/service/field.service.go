@@ -24,7 +24,7 @@ func CreateField(field request.Field, formId int) (response.Field, error) {
 	)
 	err := database.Connect.
 		QueryRowx(query, formId, field.Type, field.Label, field.Name, field.OrderOf, field.Required).
-		Scan(&res.ID, &res.FormId, &res.Type, &res.Label, &res.Name, &res.OrderOf, &res.Required)
+		Scan(&res.ID, &res.FormID, &res.Type, &res.Label, &res.Name, &res.OrderOf, &res.Required)
 
 	return *res, err
 }
@@ -86,7 +86,7 @@ func UpdateField(field request.FieldUpdate, id int) (response.Field, error) {
 		field.OrderOf,
 		field.Required,
 		id,
-	).Scan(&res.ID, &res.FormId, &res.Type, &res.Label, &res.Name, &res.OrderOf, &res.Required); err != nil {
+	).Scan(&res.ID, &res.FormID, &res.Type, &res.Label, &res.Name, &res.OrderOf, &res.Required); err != nil {
 		return response.Field{}, err
 	}
 

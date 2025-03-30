@@ -16,7 +16,7 @@ type Field struct {
 	Label    string `json:"label" db:"label"`
 	OrderOf  int    `json:"order_of" db:"order_of"`
 	Required bool   `json:"required" db:"required"`
-	FormId   uint   `json:"form_id" db:"form_id"`
+	FormID   uint   `json:"form_id" db:"form_id"`
 }
 
 type FieldVariants struct {

@@ -1,0 +1,5 @@
+ALTER TABLE results DROP form_id;
+ALTER TABLE results DROP user_id;
+
+ALTER TABLE results ADD FOREIGN KEY (form_id) REFERENCES forms(id) ON DELETE CASCADE;
+ALTER TABLE results ADD FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
