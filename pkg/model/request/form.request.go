@@ -42,6 +42,11 @@ type FieldRange struct {
 	Max int `json:"max" db:"max"`
 }
 
+type FieldRangeUpdate struct {
+	Min *int `json:"min,omitempty" db:"min"`
+	Max *int `json:"max,omitempty" db:"max"`
+}
+
 type FieldPlaceholder struct {
 	Placeholder string `json:"placeholder" db:"placeholder"`
 }
