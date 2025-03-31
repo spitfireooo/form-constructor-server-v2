@@ -69,7 +69,6 @@ func CreateResults(ctx *fiber.Ctx) error {
 	}
 
 	var res []response.Result
-
 	for _, item := range *body {
 		if result, err := service.CreateResult(item); err != nil {
 			log.Println("Error in result service", err)
@@ -176,37 +175,37 @@ func GetFieldResults(ctx *fiber.Ctx) error {
 	}
 }
 
-//// @Summary	UpdateResult
-//// @Tags Permission
-//// @Description Update Result
-//// @ID update-result
-//// @Accept json
-//// @Produce	json
-//// @Param input	body request.Result true "body info"
-//// @Success 200 {object} response.Result
-//// @Router /api/v1/result/:id [patch]
-//func UpdateResult(ctx *fiber.Ctx) error {
-//	body := new(request.ResultUpdate)
-//	id, _ := ctx.ParamsInt("id")
-//
-//	if err := ctx.BodyParser(body); err != nil {
-//		log.Println("Error in parsing request", err)
-//		return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
-//			"message": "Error in parsing request",
-//		})
-//	}
-//
-//	if permission, err := service.UpdateResult(*body, id); err != nil {
-//		log.Println("Error in result service", err)
-//		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-//			"message": "Error in result service",
-//		})
-//	} else {
-//		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-//			"data": permission,
-//		})
-//	}
-//}
+// @Summary	UpdateResult
+// @Tags Permission
+// @Description Update Result
+// @ID update-result
+// @Accept json
+// @Produce	json
+// @Param input	body request.ResultUpdate true "body info"
+// @Success 200 {object} response.Result
+// @Router /api/v1/result/:id [patch]
+func UpdateResult(ctx *fiber.Ctx) error {
+	body := new(request.ResultUpdate)
+	id, _ := ctx.ParamsInt("id")
+
+	if err := ctx.BodyParser(body); err != nil {
+		log.Println("Error in parsing request", err)
+		return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"message": "Error in parsing request",
+		})
+	}
+
+	if res, err := service.UpdateResult(*body, id); err != nil {
+		log.Println("Error in result service", err)
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Error in result service",
+		})
+	} else {
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+			"data": res,
+		})
+	}
+}
 
 // @Summary DeleteResult
 // @Tags Result

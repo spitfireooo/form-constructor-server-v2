@@ -73,50 +73,36 @@ func GetFieldResults(id int) ([]response.Result, error) {
 	return *res, err
 }
 
-//func UpdateResult(result request.ResultUpdate, id int) (response.Result, error) {
-//	field := new(response.Field)
-//
-//	if _, err := GetOneResult(id); err != nil {
-//		return response.Result{}, errors.New("result not exist")
-//	}
-//
-//	if result.FieldID != nil {
-//		field, err := GetOneField(int(*result.FieldID))
-//		if err != nil {
-//			return response.Result{}, errors.New("field not exist")
-//		} else {
-//			if _, err = GetOneForm(int(field.FormID)); err != nil {
-//				return response.Result{}, errors.New("form not exist")
-//			}
-//		}
-//	}
-//
-//	if result.UserID != nil {
-//		if _, err := GetOneUser(int(*result.UserID)); err != nil {
-//			return response.Result{}, errors.New("user not exist")
-//		}
-//	}
-//
-//	res := new(response.Result)
-//
-//	fmt.Println(result, field)
-//
-//	query := fmt.Sprintf(
-//		`UPDATE %s SET
-//			field_id = COALESCE($1, field_id),
-//			value = COALESCE($2, value),
-//			type = COALESCE($3, type),
-//			form_id = COALESCE($4, form_id),
-//            user_id = COALESCE($5, user_id)
-//        WHERE id = $6 RETURNING *`,
-//		database.ResultsTable,
-//	)
-//	err := database.Connect.
-//		QueryRowx(query, result.FieldID, result.Value, field.Type, field.FormID, result.UserID, id).
-//		Scan(&res.ID, &res.FieldID, &res.Value, &res.Type, &res.FormID, &res.UserID)
-//
-//	return *res, err
-//}
+func UpdateResult(result request.ResultUpdate, id int) (response.Result, error) {
+	field := new(request.FieldUpdate)
+
+	if _, err := GetOneResult(id); err != nil {
+		return response.Result{}, errors.New("result not exist")
+	}
+
+	if result.FieldID != nil {
+		if res, err := GetOneField(int(*result.FieldID)); err != nil {
+			return response.Result{}, errors.New("field not exist")
+		} else {
+			field.Type = &res.Type
+		}
+	}
+
+	res := new(response.Result)
+	query := fmt.Sprintf(
+		`UPDATE %s SET
+			field_id = COALESCE($1, field_id),
+			value = COALESCE($2, value),
+			type = COALESCE($3, type)
+       	WHERE id = $4 RETURNING *`,
+		database.ResultsTable,
+	)
+	err := database.Connect.
+		QueryRowx(query, result.FieldID, result.Value, field.Type, id).
+		Scan(&res.ID, &res.FieldID, &res.Value, &res.Type, &res.FormID, &res.UserID)
+
+	return *res, err
+}
 
 func DeleteResult(id int) error {
 	if _, err := GetOneResult(id); err != nil {
