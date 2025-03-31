@@ -15,6 +15,33 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/v1/field": {
+            "get": {
+                "description": "Get All Fields",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Field"
+                ],
+                "summary": "GetAllFields",
+                "operationId": "get-all-fields",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.Field"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/field/:fieldId/multiply": {
             "get": {
                 "description": "Get Field Multiply",
@@ -371,7 +398,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.FieldVariants"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.FieldVariants"
+                            }
                         }
                     }
                 }
@@ -430,9 +460,11 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
-            "patch": {
-                "description": "Update Field Variant",
+            }
+        },
+        "/api/v1/field/:id": {
+            "get": {
+                "description": "Get One Field",
                 "consumes": [
                     "application/json"
                 ],
@@ -440,10 +472,54 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "FieldVariants"
+                    "Field"
                 ],
-                "summary": "UpdateFieldVariants",
-                "operationId": "update-field-variants",
+                "summary": "GetOneField",
+                "operationId": "get-one-field",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Field"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete Field",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Field"
+                ],
+                "summary": "DeleteField",
+                "operationId": "delete-field",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update Field",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Field"
+                ],
+                "summary": "UpdateField",
+                "operationId": "update-field",
                 "parameters": [
                     {
                         "description": "body info",
@@ -451,7 +527,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.FieldVariants"
+                            "$ref": "#/definitions/request.Field"
                         }
                     }
                 ],
@@ -459,7 +535,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.FieldVariants"
+                            "$ref": "#/definitions/response.Field"
                         }
                     }
                 }
@@ -583,30 +659,6 @@ const docTemplate = `{
                         }
                     }
                 }
-            }
-        },
-        "/api/v1/form/:formId/field/:id": {
-            "get": {
-                "description": "Get One Field",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Field"
-                ],
-                "summary": "GetOneField",
-                "operationId": "get-one-field",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Field"
-                        }
-                    }
-                }
             },
             "delete": {
                 "description": "Delete Field",
@@ -629,39 +681,6 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
-            "patch": {
-                "description": "Update Field",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Field"
-                ],
-                "summary": "UpdateField",
-                "operationId": "update-field",
-                "parameters": [
-                    {
-                        "description": "body info",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.Field"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Field"
-                        }
-                    }
-                }
             }
         },
         "/api/v1/form/:id": {
@@ -678,6 +697,39 @@ const docTemplate = `{
                 ],
                 "summary": "GetOneForm",
                 "operationId": "get-one-form",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Form"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create Form",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Form"
+                ],
+                "summary": "CreateForm",
+                "operationId": "create-form",
+                "parameters": [
+                    {
+                        "description": "body info",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.Form"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -844,6 +896,279 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/response.UserPermission"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/result": {
+            "get": {
+                "description": "Get All Results",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Result"
+                ],
+                "summary": "GetAllResults",
+                "operationId": "get-all-results",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.Result"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create Results",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Result"
+                ],
+                "summary": "CreateResults",
+                "operationId": "create-results",
+                "parameters": [
+                    {
+                        "description": "body info",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.Result"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.Result"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/result/:id": {
+            "get": {
+                "description": "Get One Results",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Result"
+                ],
+                "summary": "GetOneResults",
+                "operationId": "get-one-results",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Result"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete Result",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Result"
+                ],
+                "summary": "DeleteResult",
+                "operationId": "delete-result",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update Result",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "UpdateResult",
+                "operationId": "update-result",
+                "parameters": [
+                    {
+                        "description": "body info",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.ResultUpdate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Result"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/result/field/:fieldId": {
+            "get": {
+                "description": "Get Field Results",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Result"
+                ],
+                "summary": "GetFieldResults",
+                "operationId": "get-field-results",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.Result"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create Result",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Result"
+                ],
+                "summary": "CreateResult",
+                "operationId": "create-result",
+                "parameters": [
+                    {
+                        "description": "body info",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.Result"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Result"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete Field Result",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Result"
+                ],
+                "summary": "DeleteFieldResult",
+                "operationId": "delete-field-result",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/result/form/:formId": {
+            "get": {
+                "description": "Get Form Results",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Result"
+                ],
+                "summary": "GetFormResults",
+                "operationId": "get-form-results",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.Result"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete Form Result",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Result"
+                ],
+                "summary": "DeleteFormResult",
+                "operationId": "delete-form-result",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 }
@@ -1338,6 +1663,112 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/v1/variants": {
+            "get": {
+                "description": "Get All Field Variants",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FieldVariants"
+                ],
+                "summary": "GetAllFieldVariants",
+                "operationId": "get-all-field-variants",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.FieldVariants"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/variants/:id": {
+            "get": {
+                "description": "Get One Field Variants",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FieldVariants"
+                ],
+                "summary": "GetOneFieldVariants",
+                "operationId": "get-one-field-variants",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.FieldVariants"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete Field Variants",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FieldVariants"
+                ],
+                "summary": "DeleteFieldVariants",
+                "operationId": "delete-field-variants",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update Field Variant",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FieldVariants"
+                ],
+                "summary": "UpdateFieldVariants",
+                "operationId": "update-field-variants",
+                "parameters": [
+                    {
+                        "description": "body info",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.FieldVariants"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.FieldVariants"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -1345,10 +1776,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "label": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 2
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 2
                 },
                 "order_of": {
                     "type": "integer"
@@ -1403,15 +1836,45 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "description": {
-                    "type": "integer"
+                    "type": "string",
+                    "minLength": 5
                 },
                 "logo": {
                     "type": "string"
                 },
                 "slug": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 3
                 },
                 "title": {
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 3
+                }
+            }
+        },
+        "request.Result": {
+            "type": "object",
+            "properties": {
+                "field_id": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.ResultUpdate": {
+            "type": "object",
+            "properties": {
+                "field_id": {
+                    "type": "integer"
+                },
+                "value": {
                     "type": "string"
                 }
             }
@@ -1596,7 +2059,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "description": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -1608,6 +2071,29 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.Result": {
+            "type": "object",
+            "properties": {
+                "field_id": {
+                    "type": "integer"
+                },
+                "form_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "value": {
                     "type": "string"
                 }
             }

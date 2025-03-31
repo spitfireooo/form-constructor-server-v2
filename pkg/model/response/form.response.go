@@ -44,3 +44,42 @@ type FieldMultiply struct {
 	IsMultiply bool `json:"is_multiply" db:"is_multiply"`
 	FieldId    uint `json:"field_id" db:"field_id"`
 }
+
+type FieldString struct {
+	Placeholder string `json:"placeholder" db:"placeholder"`
+	Min         int    `json:"min" db:"min"`
+	Max         int    `json:"max" db:"max"`
+}
+
+type FieldNumber struct {
+	Placeholder string `json:"placeholder" db:"placeholder"`
+	Min         int    `json:"min" db:"min"`
+	Max         int    `json:"max" db:"max"`
+}
+
+type FieldEmail struct {
+	Placeholder string `json:"placeholder" db:"placeholder"`
+	Min         int    `json:"min" db:"min"`
+	Max         int    `json:"max" db:"max"`
+}
+
+type FieldText struct {
+	Placeholder string `json:"placeholder" db:"placeholder"`
+	Min         int    `json:"min" db:"min"`
+	Max         int    `json:"max" db:"max"`
+}
+
+type FieldDate struct {
+	Placeholder string `json:"placeholder" db:"placeholder"`
+	Min         int    `json:"min" db:"min"`
+	Max         int    `json:"max" db:"max"`
+}
+
+type FieldRadio struct {
+	IsMultiply bool `json:"is_multiply" db:"is_multiply"`
+}
+
+type FieldSelect struct {
+	Placeholder string `json:"placeholder" db:"placeholder"`
+	IsMultiply  bool   `json:"is_multiply" db:"is_multiply"`
+}

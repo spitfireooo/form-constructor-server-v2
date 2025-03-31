@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
+	router_v2 "github.com/spitfireooo/form-constructor-server-v2/pkg/router/v2"
 	"time"
 )
 
@@ -19,7 +20,7 @@ func Router(r *fiber.App) {
 
 		v2 := api.Group("/v2")
 		{
-			FormRouter_v2(v2, "/form")
+			router_v2.FormRouter(v2, "/form")
 		}
 	}
 

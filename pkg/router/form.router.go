@@ -4,7 +4,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	middleware "github.com/spitfireooo/form-constructor-auth/pkg/middlewares"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/controller/v1"
-	"github.com/spitfireooo/form-constructor-server-v2/pkg/controller/v2"
 )
 
 func FormRouter(group fiber.Router, path string) {
@@ -72,23 +71,5 @@ func FieldRouter(group fiber.Router, path string) {
 		variants.Get("/:id", controller_v1.GetOneFieldVariants)
 		variants.Patch("/:id", controller_v1.UpdateFieldVariants)
 		variants.Delete("/:id", controller_v1.DeleteOneFieldVariants)
-	}
-}
-
-func FormRouter_v2(group fiber.Router, path string) {
-	form := group.Group(path)
-	{
-		form.Post("/", controller_v2.CreateForm)
-		form.Get("/:id", controller_v2.GetOneForm)
-		form.Patch("/:id", controller_v2.UpdateForm)
-		form.Delete("/:id", controller_v2.DeleteForm)
-
-		field := form.Group("/:formId/field")
-		{
-			field.Post("/", controller_v2.CreateField)
-			field.Get("/:id", controller_v2.GetOneField)
-			field.Patch("/:id", controller_v2.UpdateField)
-			field.Delete("/:id", controller_v2.DeleteField)
-		}
 	}
 }
