@@ -133,19 +133,115 @@ func CreateField(ctx *fiber.Ctx) error {
 }
 
 func GetOneField(ctx *fiber.Ctx) error {
+	id, _ := ctx.ParamsInt("id")
+
+	field, err := service.GetOneField(id)
+	if err != nil {
+		log.Println("Error in field service", err)
+		return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error in field service",
+		})
+	}
+
+	resp := map[string]interface{}{
+		"id":       field.ID,
+		"name":     field.Name,
+		"type":     field.Type,
+		"label":    field.Label,
+		"order_od": field.OrderOf,
+		"required": field.Required,
+	}
+
+	switch field.Type {
+	case "string":
+		if res, err := service.GetString(id); err != nil {
+			log.Println("Error in string service", err)
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Error in string service",
+			})
+		} else {
+			resp["placeholder"] = res.Placeholder
+			resp["min"] = res.Min
+			resp["max"] = res.Max
+		}
+
+	case "number":
+		if res, err := service.GetNumber(id); err != nil {
+			log.Println("Error in number service", err)
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Error in number service",
+			})
+		} else {
+			resp["placeholder"] = res.Placeholder
+			resp["min"] = res.Min
+			resp["max"] = res.Max
+		}
+
+	case "email":
+		if res, err := service.GetEmail(id); err != nil {
+			log.Println("Error in email service", err)
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Error in email service",
+			})
+		} else {
+			resp["placeholder"] = res.Placeholder
+			resp["min"] = res.Min
+			resp["max"] = res.Max
+		}
+
+	case "text":
+		if res, err := service.GetText(id); err != nil {
+			log.Println("Error in text service", err)
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Error in text service",
+			})
+		} else {
+			resp["placeholder"] = res.Placeholder
+			resp["min"] = res.Min
+			resp["max"] = res.Max
+		}
+
+	case "date":
+		if res, err := service.GetDate(id); err != nil {
+			log.Println("Error in date service", err)
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Error in date service",
+			})
+		} else {
+			resp["placeholder"] = res.Placeholder
+			resp["min"] = res.Min
+			resp["max"] = res.Max
+		}
+
+	case "radio":
+		if res, err := service.GetRadio(id); err != nil {
+			log.Println("Error in radio service", err)
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Error in radio service",
+			})
+		} else {
+			resp["is_multiply"] = res.IsMultiply
+		}
+
+	case "select":
+		if res, err := service.GetSelect(id); err != nil {
+			log.Println("Error in select service", err)
+			return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Error in select service",
+			})
+		} else {
+			resp["placeholder"] = res.Placeholder
+			resp["is_multiply"] = res.IsMultiply
+		}
+	}
+
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message": "GetOneField",
+		"data": resp,
 	})
 }
 
 func UpdateField(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "UpdateField",
-	})
-}
-
-func DeleteField(ctx *fiber.Ctx) error {
-	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message": "DeleteField",
 	})
 }

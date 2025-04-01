@@ -29,6 +29,23 @@ func CreateString(body map[string]interface{}, id int) (response.FieldString, er
 	return *res, nil
 }
 
+func GetString(id int) (response.FieldString, error) {
+	res := new(response.FieldString)
+
+	if placeholder, err := GetFieldPlaceholder(id); err != nil {
+		return response.FieldString{}, err
+	} else {
+		res.Placeholder = placeholder.Placeholder
+	}
+
+	if ranges, err := GetFieldRange(id); err != nil {
+		res.Min = ranges.Min
+		res.Max = ranges.Max
+	}
+
+	return *res, nil
+}
+
 func CreateNumber(body map[string]interface{}, id int) (response.FieldNumber, error) {
 	res := new(response.FieldNumber)
 
@@ -46,6 +63,23 @@ func CreateNumber(body map[string]interface{}, id int) (response.FieldNumber, er
 	}, id); err != nil {
 		return response.FieldNumber{}, err
 	} else {
+		res.Min = ranges.Min
+		res.Max = ranges.Max
+	}
+
+	return *res, nil
+}
+
+func GetNumber(id int) (response.FieldNumber, error) {
+	res := new(response.FieldNumber)
+
+	if placeholder, err := GetFieldPlaceholder(id); err != nil {
+		return response.FieldNumber{}, err
+	} else {
+		res.Placeholder = placeholder.Placeholder
+	}
+
+	if ranges, err := GetFieldRange(id); err != nil {
 		res.Min = ranges.Min
 		res.Max = ranges.Max
 	}
@@ -77,6 +111,23 @@ func CreateEmail(body map[string]interface{}, id int) (response.FieldEmail, erro
 	return *res, nil
 }
 
+func GetEmail(id int) (response.FieldEmail, error) {
+	res := new(response.FieldEmail)
+
+	if placeholder, err := GetFieldPlaceholder(id); err != nil {
+		return response.FieldEmail{}, err
+	} else {
+		res.Placeholder = placeholder.Placeholder
+	}
+
+	if ranges, err := GetFieldRange(id); err != nil {
+		res.Min = ranges.Min
+		res.Max = ranges.Max
+	}
+
+	return *res, nil
+}
+
 func CreateText(body map[string]interface{}, id int) (response.FieldText, error) {
 	res := new(response.FieldText)
 
@@ -94,6 +145,23 @@ func CreateText(body map[string]interface{}, id int) (response.FieldText, error)
 	}, id); err != nil {
 		return response.FieldText{}, err
 	} else {
+		res.Min = ranges.Min
+		res.Max = ranges.Max
+	}
+
+	return *res, nil
+}
+
+func GetText(id int) (response.FieldText, error) {
+	res := new(response.FieldText)
+
+	if placeholder, err := GetFieldPlaceholder(id); err != nil {
+		return response.FieldText{}, err
+	} else {
+		res.Placeholder = placeholder.Placeholder
+	}
+
+	if ranges, err := GetFieldRange(id); err != nil {
 		res.Min = ranges.Min
 		res.Max = ranges.Max
 	}
@@ -125,12 +193,41 @@ func CreateDate(body map[string]interface{}, id int) (response.FieldText, error)
 	return *res, nil
 }
 
+func GetDate(id int) (response.FieldDate, error) {
+	res := new(response.FieldDate)
+
+	if placeholder, err := GetFieldPlaceholder(id); err != nil {
+		return response.FieldDate{}, err
+	} else {
+		res.Placeholder = placeholder.Placeholder
+	}
+
+	if ranges, err := GetFieldRange(id); err != nil {
+		res.Min = ranges.Min
+		res.Max = ranges.Max
+	}
+
+	return *res, nil
+}
+
 func CreateRadio(body map[string]interface{}, id int) (response.FieldRadio, error) {
 	res := new(response.FieldRadio)
 
 	if multiply, err := CreateFieldMultiply(request.FieldMultiply{
 		IsMultiply: body["is_multiply"].(bool),
 	}, id); err != nil {
+		return response.FieldRadio{}, err
+	} else {
+		res.IsMultiply = multiply.IsMultiply
+	}
+
+	return *res, nil
+}
+
+func GetRadio(id int) (response.FieldRadio, error) {
+	res := new(response.FieldRadio)
+
+	if multiply, err := GetFieldMultiply(id); err != nil {
 		return response.FieldRadio{}, err
 	} else {
 		res.IsMultiply = multiply.IsMultiply
@@ -153,6 +250,24 @@ func CreateSelect(body map[string]interface{}, id int) (response.FieldSelect, er
 	if multiply, err := CreateFieldMultiply(request.FieldMultiply{
 		IsMultiply: body["is_multiply"].(bool),
 	}, id); err != nil {
+		return response.FieldSelect{}, err
+	} else {
+		res.IsMultiply = multiply.IsMultiply
+	}
+
+	return *res, nil
+}
+
+func GetSelect(id int) (response.FieldSelect, error) {
+	res := new(response.FieldSelect)
+
+	if placeholder, err := GetFieldPlaceholder(id); err != nil {
+		return response.FieldSelect{}, err
+	} else {
+		res.Placeholder = placeholder.Placeholder
+	}
+
+	if multiply, err := GetFieldMultiply(id); err != nil {
 		return response.FieldSelect{}, err
 	} else {
 		res.IsMultiply = multiply.IsMultiply

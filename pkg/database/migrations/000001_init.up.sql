@@ -17,7 +17,7 @@ CREATE TABLE tokens
     user_id int not null,
     token varchar(255) not null,
 
-    foreign key (user_id) references users(id)
+    foreign key (user_id) references users(id) on delete cascade
 );
 
 CREATE TABLE user_permissions
@@ -26,7 +26,7 @@ CREATE TABLE user_permissions
     user_id int not null,
     permission varchar(20) not null,
 
-    foreign key (user_id) references users(id)
+    foreign key (user_id) references users(id) on delete cascade
 );
 
 CREATE TABLE tags
@@ -42,8 +42,8 @@ CREATE TABLE user_tags
     user_id int not null,
     tag_id int not null,
 
-    foreign key (user_id) references users(id),
-    foreign key (tag_id) references tags(id)
+    foreign key (user_id) references users(id) on delete cascade,
+    foreign key (tag_id) references tags(id) on delete cascade
 );
 
 CREATE TABLE forms
@@ -68,7 +68,7 @@ CREATE TABLE fields
     order_of int default 0,
     required boolean not null default false,
 
-    foreign key (form_id) references forms(id)
+    foreign key (form_id) references forms(id) on delete cascade
 );
 
 CREATE TABLE field_variants
@@ -78,7 +78,7 @@ CREATE TABLE field_variants
     variant varchar(255) not null,
     name varchar(255) not null,
 
-    foreign key (field_id) references fields(id)
+    foreign key (field_id) references fields(id) on delete cascade
 );
 
 CREATE TABLE field_multiply
@@ -87,7 +87,7 @@ CREATE TABLE field_multiply
     field_id int not null,
     is_multiply boolean not null,
 
-    foreign key (field_id) references fields(id)
+    foreign key (field_id) references fields(id) on delete cascade
 );
 
 CREATE TABLE field_placeholder
@@ -96,7 +96,7 @@ CREATE TABLE field_placeholder
     field_id int not null,
     placeholder varchar(255) not null,
 
-    foreign key (field_id) references fields(id)
+    foreign key (field_id) references fields(id) on delete cascade
 );
 
 CREATE TABLE field_range
@@ -106,7 +106,7 @@ CREATE TABLE field_range
     min int not null default 1,
     max int not null default 20,
 
-    foreign key (field_id) references fields(id)
+    foreign key (field_id) references fields(id) on delete cascade
 );
 
 CREATE TABLE results
@@ -114,8 +114,12 @@ CREATE TABLE results
     id serial not null unique,
     field_id int not null,
     value varchar(255) not null,
+    form_id int not null,
+    user_id int not null,
 
-    foreign key (field_id) references fields(id)
+    foreign key (field_id) references fields(id) on delete cascade,
+    foreign key (form_id) references forms(id) on delete cascade,
+    foreign key (user_id) references users(id)
 );
 
 CREATE TABLE dialogs
