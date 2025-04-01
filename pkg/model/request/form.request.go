@@ -59,3 +59,77 @@ type FieldPlaceholder struct {
 type FieldMultiply struct {
 	IsMultiply bool `json:"is_multiply" db:"is_multiply"`
 }
+
+type FieldString struct {
+	Name        string `json:"name" db:"name"`
+	Type        string `json:"type" db:"type"`
+	Label       string `json:"label" db:"label"`
+	OrderOf     int    `json:"order_of" db:"order_of"`
+	Required    bool   `json:"required" db:"required"`
+	Placeholder string `json:"placeholder" db:"placeholder"`
+	Min         int    `json:"min" db:"min"`
+	Max         int    `json:"max" db:"max"`
+}
+
+type FieldNumber struct {
+	Name        string `json:"name" db:"name"`
+	Type        string `json:"type" db:"type"`
+	Label       string `json:"label" db:"label"`
+	OrderOf     int    `json:"order_of" db:"order_of"`
+	Required    bool   `json:"required" db:"required"`
+	Placeholder string `json:"placeholder" db:"placeholder"`
+	Min         int    `json:"min" db:"min"`
+	Max         int    `json:"max" db:"max"`
+}
+
+type FieldEmail struct {
+	Name        string `json:"name" db:"name"`
+	Type        string `json:"type" db:"type"`
+	Label       string `json:"label" db:"label"`
+	OrderOf     int    `json:"order_of" db:"order_of"`
+	Required    bool   `json:"required" db:"required"`
+	Placeholder string `json:"placeholder" db:"placeholder"`
+	Min         int    `json:"min" db:"min"`
+	Max         int    `json:"max" db:"max"`
+}
+
+type FieldText struct {
+	Name        string `json:"name" db:"name"`
+	Type        string `json:"type" db:"type"`
+	Label       string `json:"label" db:"label"`
+	OrderOf     int    `json:"order_of" db:"order_of"`
+	Required    bool   `json:"required" db:"required"`
+	Placeholder string `json:"placeholder" db:"placeholder"`
+	Min         int    `json:"min" db:"min"`
+	Max         int    `json:"max" db:"max"`
+}
+
+type FieldDate struct {
+	Name        string `json:"name" db:"name"`
+	Type        string `json:"type" db:"type"`
+	Label       string `json:"label" db:"label"`
+	OrderOf     int    `json:"order_of" db:"order_of"`
+	Required    bool   `json:"required" db:"required"`
+	Placeholder string `json:"placeholder" db:"placeholder"`
+	Min         int    `json:"min" db:"min"`
+	Max         int    `json:"max" db:"max"`
+}
+
+type FieldRadio struct {
+	Name       string `json:"name" db:"name"`
+	Type       string `json:"type" db:"type"`
+	Label      string `json:"label" db:"label"`
+	OrderOf    int    `json:"order_of" db:"order_of"`
+	Required   bool   `json:"required" db:"required"`
+	IsMultiply bool   `json:"is_multiply" db:"is_multiply"`
+}
+
+type FieldSelect struct {
+	Name        string `json:"name" db:"name"`
+	Type        string `json:"type" db:"type"`
+	Label       string `json:"label" db:"label"`
+	OrderOf     int    `json:"order_of" db:"order_of"`
+	Required    bool   `json:"required" db:"required"`
+	Placeholder string `json:"placeholder" db:"placeholder"`
+	IsMultiply  bool   `json:"is_multiply" db:"is_multiply"`
+}
