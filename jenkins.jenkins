@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+    stages {
+        stage('Upload changes') {
+            steps {
+                sshagent(credentials : ['jenkins_in_agent']) {
+                    sh '''
+                    ssh vh1@192.168.88.156 "cd /home/vh1/project/wordpress/themes &&
+                    git fetch origin git@github.com:Lunevspring/closed.git;\
+                    git pull origin git@github.com:Lunevspring/closed.git;\
+                    docker restart wordpress;\
+                    docker ps -a"
+                    '''
+                }
+            }
+        }
+    }
+    post {
+        success {
+            script {
+                sh """
+                curl -X POST -H 'Content-Type: application/json' -d '{
+                    "chat_id": "1840278555",
+                    "text": "Пайплайн запущен успешно.\nЗадача: ${env.JOB_NAME}\nID: ${env.BUILD_ID}\nЗапущено на: ${env.NODE_NAME}\",
+                    "disable_notification": false
+                }' https://api.telegram.org/bot7980595078:AAGNp-jHybdGWExvgE8m_ut1n6vOBT6XEew/sendMessage
+                """
+            }
+        }
+        failure {
+            script {
+                sh """
+                 curl -X POST -H 'Content-Type: application/json' -d '{
+                    "chat_id": "1840278555",
+                    "text": "Пайплайн потерпел неудачу.\nЗадача: ${env.JOB_NAME}\nID: ${env.BUILD_ID}\nЗапущено на: ${env.NODE_NAME}\",
+                    "disable_notification": false
+                }' https://api.telegram.org/bot7980595078:AAGNp-jHybdGWExvgE8m_ut1n6vOBT6XEew/sendMessage
+                """
+            }
+        }
+    }
+}

@@ -1,2 +1,7 @@
 .env
+<<<<<<< HEAD
 static
+=======
+static
+postgress/data
+>>>>>>> master

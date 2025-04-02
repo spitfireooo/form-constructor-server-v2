@@ -10,22 +10,22 @@ import (
 
 type FieldResponse interface {
 	response.FieldString |
-	response.FieldNumber |
-	response.FieldEmail |
-	response.FieldText |
-	response.FieldDate |
-	response.FieldRadio |
-	response.FieldSelect
+		response.FieldNumber |
+		response.FieldEmail |
+		response.FieldText |
+		response.FieldDate |
+		response.FieldRadio |
+		response.FieldSelect
 }
 
 type FieldRequest interface {
 	request.FieldString |
-	request.FieldNumber |
-	request.FieldEmail |
-	request.FieldText |
-	request.FieldDate |
-	request.FieldRadio |
-	request.FieldSelect
+		request.FieldNumber |
+		request.FieldEmail |
+		request.FieldText |
+		request.FieldDate |
+		request.FieldRadio |
+		request.FieldSelect
 }
 
 func CreateField(body map[string]interface{}, formId int) (map[string]interface{}, error) {
