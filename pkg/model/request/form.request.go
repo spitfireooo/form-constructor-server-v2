@@ -1,5 +1,14 @@
 package request
 
+type FormWithField struct {
+	Title       string  `json:"title" db:"title" validate:"min=3,max=30"`
+	Slug        string  `json:"slug" db:"slug" validate:"min=3,max=50"`
+	Description *string `json:"description,omitempty" db:"description" validate:"omitempty,min=5"`
+	Logo        *string `json:"logo,omitempty" db:"logo" validate:"omitempty,image"`
+
+	Fields *[]map[string]interface{} `json:"fields,omitempty" db:"fields" validate:"omitempty,fields"`
+}
+
 type Form struct {
 	Title       string  `json:"title" db:"title" validate:"min=3,max=30"`
 	Slug        string  `json:"slug" db:"slug" validate:"min=3,max=50"`

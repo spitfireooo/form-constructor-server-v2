@@ -8,10 +8,8 @@ import (
 func FormRouter(group fiber.Router, path string) {
 	form := group.Group(path)
 	{
-		form.Post("/", controller_v2.CreateForm)
-		form.Get("/:id", controller_v2.GetOneForm)
-		form.Patch("/:id", controller_v2.UpdateForm)
-		form.Delete("/:id", controller_v2.DeleteForm)
+		form.Post("/:id", controller_v2.CreateForm)
+		form.Get("/:id", controller_v2.GetForm)
 
 		field := form.Group("/:formId/field")
 		{
