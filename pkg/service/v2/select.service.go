@@ -67,3 +67,15 @@ func UpdateSelect(body map[string]interface{}, id int) (response.FieldSelect, er
 
 	return *res, nil
 }
+
+func DeleteSelect(id int) error {
+	if err := service.DeleteFieldPlaceholder(id); err != nil {
+		return err
+	}
+
+	if err := service.DeleteFieldMultiply(id); err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -74,3 +74,15 @@ func UpdateEmail(body map[string]interface{}, id int) (response.FieldEmail, erro
 
 	return *res, nil
 }
+
+func DeleteEmail(id int) error {
+	if err := service.DeleteFieldPlaceholder(id); err != nil {
+		return err
+	}
+
+	if err := service.DeleteFieldRange(id); err != nil {
+		return err
+	}
+
+	return nil
+}

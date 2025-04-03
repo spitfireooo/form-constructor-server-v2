@@ -45,3 +45,11 @@ func UpdateRadio(body map[string]interface{}, id int) (response.FieldRadio, erro
 
 	return *res, nil
 }
+
+func DeleteRadio(id int) error {
+	if err := service.DeleteFieldMultiply(id); err != nil {
+		return err
+	}
+
+	return nil
+}

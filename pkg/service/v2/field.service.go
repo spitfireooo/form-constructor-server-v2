@@ -1,7 +1,6 @@
 package service_v2
 
 import (
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/model/request"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/model/response"
@@ -302,99 +301,190 @@ func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, e
 	}
 
 	// ...
-	if oldField.Type != field.Type {
-		fmt.Println("!= type")
+	if field.Type != "" && oldField.Type != field.Type {
+		fieldID := int(field.ID)
+		switch oldField.Type {
+		case "string":
+			DeleteString(fieldID)
+		case "number":
+			DeleteNumber(fieldID)
+
+		case "email":
+			DeleteEmail(fieldID)
+
+		case "text":
+			DeleteText(fieldID)
+
+		case "date":
+			DeleteDate(fieldID)
+
+		case "radio":
+			DeleteRadio(fieldID)
+
+		case "select":
+			DeleteSelect(fieldID)
+		}
 	}
 
 	if t, ok := body["type"]; ok {
 		switch t {
 		case "string":
-			if res, err := UpdateString(body, int(field.ID)); err != nil {
-				log.Println("Error in string service", err)
-				return nil, &fiber.Error{
-					Code:    fiber.StatusInternalServerError,
-					Message: "Error in string service",
+			var res response.FieldString
+			if oldField.Type == field.Type {
+				if res, err = UpdateString(body, int(field.ID)); err != nil {
+					log.Println("Error in string service", err)
+					return nil, &fiber.Error{
+						Code:    fiber.StatusInternalServerError,
+						Message: "Error in string service",
+					}
 				}
 			} else {
-				resp["placeholder"] = res.Placeholder
-				resp["min"] = res.Min
-				resp["max"] = res.Max
+				if res, err = CreateString(body, int(field.ID)); err != nil {
+					log.Println("Error in string service", err)
+					return nil, &fiber.Error{
+						Code:    fiber.StatusInternalServerError,
+						Message: "Error in string service",
+					}
+				}
 			}
+			resp["placeholder"] = res.Placeholder
+			resp["min"] = res.Min
+			resp["max"] = res.Max
 
 		case "number":
-			if res, err := UpdateNumber(body, int(field.ID)); err != nil {
-				log.Println("Error in number service", err)
-				return nil, &fiber.Error{
-					Code:    fiber.StatusInternalServerError,
-					Message: "Error in number service",
+			var res response.FieldNumber
+			if oldField.Type == field.Type {
+				if res, err = UpdateNumber(body, int(field.ID)); err != nil {
+					log.Println("Error in number service", err)
+					return nil, &fiber.Error{
+						Code:    fiber.StatusInternalServerError,
+						Message: "Error in number service",
+					}
 				}
 			} else {
-				resp["placeholder"] = res.Placeholder
-				resp["min"] = res.Min
-				resp["max"] = res.Max
+				if res, err = CreateNumber(body, int(field.ID)); err != nil {
+					log.Println("Error in number service", err)
+					return nil, &fiber.Error{
+						Code:    fiber.StatusInternalServerError,
+						Message: "Error in number service",
+					}
+				}
 			}
+			resp["placeholder"] = res.Placeholder
+			resp["min"] = res.Min
+			resp["max"] = res.Max
 
 		case "email":
-			if res, err := UpdateEmail(body, int(field.ID)); err != nil {
-				log.Println("Error in email service", err)
-				return nil, &fiber.Error{
-					Code:    fiber.StatusInternalServerError,
-					Message: "Error in email service",
+			var res response.FieldEmail
+			if oldField.Type == field.Type {
+				if res, err = UpdateEmail(body, int(field.ID)); err != nil {
+					log.Println("Error in email service", err)
+					return nil, &fiber.Error{
+						Code:    fiber.StatusInternalServerError,
+						Message: "Error in email service",
+					}
 				}
 			} else {
-				resp["placeholder"] = res.Placeholder
-				resp["min"] = res.Min
-				resp["max"] = res.Max
+				if res, err = CreateEmail(body, int(field.ID)); err != nil {
+					log.Println("Error in email service", err)
+					return nil, &fiber.Error{
+						Code:    fiber.StatusInternalServerError,
+						Message: "Error in email service",
+					}
+				}
 			}
+			resp["placeholder"] = res.Placeholder
+			resp["min"] = res.Min
+			resp["max"] = res.Max
 
 		case "text":
-			if res, err := UpdateText(body, int(field.ID)); err != nil {
-				log.Println("Error in text service", err)
-				return nil, &fiber.Error{
-					Code:    fiber.StatusInternalServerError,
-					Message: "Error in text service",
+			var res response.FieldText
+			if oldField.Type == field.Type {
+				if res, err = UpdateText(body, int(field.ID)); err != nil {
+					log.Println("Error in text service", err)
+					return nil, &fiber.Error{
+						Code:    fiber.StatusInternalServerError,
+						Message: "Error in text service",
+					}
 				}
 			} else {
-				resp["placeholder"] = res.Placeholder
-				resp["min"] = res.Min
-				resp["max"] = res.Max
+				if res, err = CreateText(body, int(field.ID)); err != nil {
+					log.Println("Error in text service", err)
+					return nil, &fiber.Error{
+						Code:    fiber.StatusInternalServerError,
+						Message: "Error in text service",
+					}
+				}
 			}
+			resp["placeholder"] = res.Placeholder
+			resp["min"] = res.Min
+			resp["max"] = res.Max
 
 		case "date":
-			if res, err := UpdateDate(body, int(field.ID)); err != nil {
-				log.Println("Error in date service", err)
-				return nil, &fiber.Error{
-					Code:    fiber.StatusInternalServerError,
-					Message: "Error in date service",
+			var res response.FieldDate
+			if oldField.Type == field.Type {
+				if res, err = UpdateDate(body, int(field.ID)); err != nil {
+					log.Println("Error in date service", err)
+					return nil, &fiber.Error{
+						Code:    fiber.StatusInternalServerError,
+						Message: "Error in date service",
+					}
 				}
 			} else {
-				resp["placeholder"] = res.Placeholder
-				resp["min"] = res.Min
-				resp["max"] = res.Max
+				if res, err = CreateDate(body, int(field.ID)); err != nil {
+					log.Println("Error in date service", err)
+					return nil, &fiber.Error{
+						Code:    fiber.StatusInternalServerError,
+						Message: "Error in date service",
+					}
+				}
 			}
+			resp["placeholder"] = res.Placeholder
+			resp["min"] = res.Min
+			resp["max"] = res.Max
 
 		case "radio":
-			if res, err := UpdateRadio(body, int(field.ID)); err != nil {
-				log.Println("Error in radio service", err)
-				return nil, &fiber.Error{
-					Code:    fiber.StatusInternalServerError,
-					Message: "Error in radio service",
+			var res response.FieldRadio
+			if oldField.Type == field.Type {
+				if res, err = UpdateRadio(body, int(field.ID)); err != nil {
+					log.Println("Error in radio service", err)
+					return nil, &fiber.Error{
+						Code:    fiber.StatusInternalServerError,
+						Message: "Error in radio service",
+					}
 				}
 			} else {
-				resp["is_multiply"] = res.IsMultiply
+				if res, err = CreateRadio(body, int(field.ID)); err != nil {
+					log.Println("Error in radio service", err)
+					return nil, &fiber.Error{
+						Code:    fiber.StatusInternalServerError,
+						Message: "Error in radio service",
+					}
+				}
 			}
+			resp["is_multiply"] = res.IsMultiply
 
 		case "select":
-			if res, err := UpdateSelect(body, int(field.ID)); err != nil {
-				log.Println("Error in select service", err)
-				return nil, &fiber.Error{
-					Code:    fiber.StatusInternalServerError,
-					Message: "Error in select service",
+			var res response.FieldSelect
+			if oldField.Type == field.Type {
+				if res, err = UpdateSelect(body, int(field.ID)); err != nil {
+					log.Println("Error in select service", err)
+					return nil, &fiber.Error{
+						Code:    fiber.StatusInternalServerError,
+						Message: "Error in select service",
+					}
 				}
 			} else {
-				resp["placeholder"] = res.Placeholder
-				resp["is_multiply"] = res.IsMultiply
+				if res, err = CreateSelect(body, int(field.ID)); err != nil {
+					log.Println("Error in select service", err)
+					return nil, &fiber.Error{
+						Code:    fiber.StatusInternalServerError,
+						Message: "Error in select service",
+					}
+				}
 			}
+			resp["placeholder"] = res.Placeholder
+			resp["is_multiply"] = res.IsMultiply
 		}
 	}
 

@@ -74,3 +74,15 @@ func UpdateText(body map[string]interface{}, id int) (response.FieldText, error)
 
 	return *res, nil
 }
+
+func DeleteText(id int) error {
+	if err := service.DeleteFieldPlaceholder(id); err != nil {
+		return err
+	}
+
+	if err := service.DeleteFieldRange(id); err != nil {
+		return err
+	}
+
+	return nil
+}

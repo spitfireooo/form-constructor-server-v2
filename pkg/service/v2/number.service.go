@@ -74,3 +74,15 @@ func UpdateNumber(body map[string]interface{}, id int) (response.FieldNumber, er
 
 	return *res, nil
 }
+
+func DeleteNumber(id int) error {
+	if err := service.DeleteFieldPlaceholder(id); err != nil {
+		return err
+	}
+
+	if err := service.DeleteFieldRange(id); err != nil {
+		return err
+	}
+
+	return nil
+}
