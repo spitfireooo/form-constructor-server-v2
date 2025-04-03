@@ -8,6 +8,15 @@ import (
 	"net/http"
 )
 
+// @Summary	CreateFieldWithField
+// @Tags Form
+// @Description Create Form With Field
+// @ID create-form-v2
+// @Accept json
+// @Produce	json
+// @Param input	body request.FormWithField true "body info"
+// @Success 200 {object} response.FormWithField
+// @Router /api/v2/form/:id [post]
 func CreateForm(ctx *fiber.Ctx) error {
 	var body request.FormWithField
 	userId, _ := ctx.ParamsInt("id")
@@ -32,6 +41,14 @@ func CreateForm(ctx *fiber.Ctx) error {
 	}
 }
 
+// @Summary	GetFormWithField
+// @Tags Form
+// @Description Get Form With Field
+// @ID get-form-v2
+// @Accept json
+// @Produce	json
+// @Success 200 {array} response.FormWithField
+// @Router /api/v2/form/:id [get]
 func GetForm(ctx *fiber.Ctx) error {
 	formId, _ := ctx.ParamsInt("id")
 

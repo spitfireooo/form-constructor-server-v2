@@ -60,9 +60,11 @@ func UpdateNumber(body map[string]interface{}, id int) (response.FieldNumber, er
 		res.Placeholder = placeholder.Placeholder
 	}
 
+	Min := int(body["min"].(float64))
+	Max := int(body["max"].(float64))
 	if ranges, err := service.UpdateFieldRange(request.FieldRangeUpdate{
-		Min: body["min"].(*int),
-		Max: body["max"].(*int),
+		Min: &Min,
+		Max: &Max,
 	}, id); err != nil {
 		return response.FieldNumber{}, err
 	} else {

@@ -15,7 +15,7 @@ func FormRouter(group fiber.Router, path string) {
 		{
 			field.Post("/", controller_v2.CreateField)
 			field.Get("/:id", controller_v2.GetOneField)
-			//field.Patch("/:id", controller_v2.UpdateField)
+			field.Patch("/:id", controller_v2.UpdateField)
 		}
 	}
 }

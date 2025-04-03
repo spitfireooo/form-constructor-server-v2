@@ -58,3 +58,28 @@ func GetOneField(ctx *fiber.Ctx) error {
 		})
 	}
 }
+
+func UpdateField(ctx *fiber.Ctx) error {
+	id, _ := ctx.ParamsInt("id")
+
+	var body map[string]interface{}
+
+	if err := ctx.BodyParser(&body); err != nil {
+		log.Println("Error in parsing request", err)
+		return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"message": "Error in parsing request",
+		})
+	}
+
+	if res, err := service_v2.UpdateField(body, id); err != nil {
+		log.Println("Error in field service", err)
+		return err
+		//return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+		//	"message": "Error in field service",
+		//})
+	} else {
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+			"data": res,
+		})
+	}
+}

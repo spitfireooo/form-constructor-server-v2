@@ -1,6 +1,7 @@
 package service_v2
 
 import (
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/model/request"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/model/response"
@@ -258,4 +259,144 @@ func GetOneField(id int) (map[string]interface{}, error) {
 	}
 
 	return resp, err
+}
+
+func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, error) {
+	oldField, err := service.GetOneField(id)
+	if err != nil {
+		log.Println("Error in field service", err)
+		return nil, &fiber.Error{
+			Code:    fiber.StatusInternalServerError,
+			Message: "Error in field service",
+		}
+	}
+
+	Name := body["name"].(string)
+	Type := body["type"].(string)
+	Label := body["label"].(string)
+	OrderOf := int(body["order_of"].(float64))
+	Required := body["required"].(bool)
+
+	field, err := service.UpdateField(request.FieldUpdate{
+		Name:     &Name,
+		Type:     &Type,
+		Label:    &Label,
+		OrderOf:  &OrderOf,
+		Required: &Required,
+	}, id)
+	if err != nil {
+		log.Println("Error in field service", err)
+		return nil, &fiber.Error{
+			Code:    fiber.StatusInternalServerError,
+			Message: "Error in field service",
+		}
+	}
+
+	resp := map[string]interface{}{
+		"id":       field.ID,
+		"name":     field.Name,
+		"type":     field.Type,
+		"label":    field.Label,
+		"order_od": field.OrderOf,
+		"required": field.Required,
+	}
+
+	// ...
+	if oldField.Type != field.Type {
+		fmt.Println("!= type")
+	}
+
+	if t, ok := body["type"]; ok {
+		switch t {
+		case "string":
+			if res, err := UpdateString(body, int(field.ID)); err != nil {
+				log.Println("Error in string service", err)
+				return nil, &fiber.Error{
+					Code:    fiber.StatusInternalServerError,
+					Message: "Error in string service",
+				}
+			} else {
+				resp["placeholder"] = res.Placeholder
+				resp["min"] = res.Min
+				resp["max"] = res.Max
+			}
+
+		case "number":
+			if res, err := UpdateNumber(body, int(field.ID)); err != nil {
+				log.Println("Error in number service", err)
+				return nil, &fiber.Error{
+					Code:    fiber.StatusInternalServerError,
+					Message: "Error in number service",
+				}
+			} else {
+				resp["placeholder"] = res.Placeholder
+				resp["min"] = res.Min
+				resp["max"] = res.Max
+			}
+
+		case "email":
+			if res, err := UpdateEmail(body, int(field.ID)); err != nil {
+				log.Println("Error in email service", err)
+				return nil, &fiber.Error{
+					Code:    fiber.StatusInternalServerError,
+					Message: "Error in email service",
+				}
+			} else {
+				resp["placeholder"] = res.Placeholder
+				resp["min"] = res.Min
+				resp["max"] = res.Max
+			}
+
+		case "text":
+			if res, err := UpdateText(body, int(field.ID)); err != nil {
+				log.Println("Error in text service", err)
+				return nil, &fiber.Error{
+					Code:    fiber.StatusInternalServerError,
+					Message: "Error in text service",
+				}
+			} else {
+				resp["placeholder"] = res.Placeholder
+				resp["min"] = res.Min
+				resp["max"] = res.Max
+			}
+
+		case "date":
+			if res, err := UpdateDate(body, int(field.ID)); err != nil {
+				log.Println("Error in date service", err)
+				return nil, &fiber.Error{
+					Code:    fiber.StatusInternalServerError,
+					Message: "Error in date service",
+				}
+			} else {
+				resp["placeholder"] = res.Placeholder
+				resp["min"] = res.Min
+				resp["max"] = res.Max
+			}
+
+		case "radio":
+			if res, err := UpdateRadio(body, int(field.ID)); err != nil {
+				log.Println("Error in radio service", err)
+				return nil, &fiber.Error{
+					Code:    fiber.StatusInternalServerError,
+					Message: "Error in radio service",
+				}
+			} else {
+				resp["is_multiply"] = res.IsMultiply
+			}
+
+		case "select":
+			if res, err := UpdateSelect(body, int(field.ID)); err != nil {
+				log.Println("Error in select service", err)
+				return nil, &fiber.Error{
+					Code:    fiber.StatusInternalServerError,
+					Message: "Error in select service",
+				}
+			} else {
+				resp["placeholder"] = res.Placeholder
+				resp["is_multiply"] = res.IsMultiply
+			}
+		}
+	}
+
+	return resp, nil
 }

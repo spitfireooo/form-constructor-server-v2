@@ -17,9 +17,11 @@ func CreateText(body map[string]interface{}, id int) (response.FieldText, error)
 		res.Placeholder = placeholder.Placeholder
 	}
 
-	if ranges, err := service.CreateFieldRange(request.FieldRange{
-		Min: int(body["min"].(float64)),
-		Max: int(body["max"].(float64)),
+	Min := int(body["min"].(float64))
+	Max := int(body["max"].(float64))
+	if ranges, err := service.UpdateFieldRange(request.FieldRangeUpdate{
+		Min: &Min,
+		Max: &Max,
 	}, id); err != nil {
 		return response.FieldText{}, err
 	} else {
