@@ -33,7 +33,17 @@ func CreateForm(ctx *fiber.Ctx) error {
 }
 
 func GetForm(ctx *fiber.Ctx) error {
-	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message": "GetOneForm",
-	})
+	formId, _ := ctx.ParamsInt("id")
+
+	if res, err := service_v2.GetForm(formId); err != nil {
+		log.Println("Error in field service", err)
+		return err
+		//return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
+		//	"message": "Error in field service",
+		//})
+	} else {
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+			"data": res,
+		})
+	}
 }
