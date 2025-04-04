@@ -3,13 +3,9 @@ pipeline {
     stages {
         stage('Upload changes') {
             steps {
-                sshagent(credentials : ['jenkins_in_agent']) {
                     sh '''
-                    ssh vh1@192.168.88.156 "cd /home/vh1/project/wordpress/themes &&
-                    git fetch origin git@github.com:Lunevspring/closed.git;\
-                    git pull origin git@github.com:Lunevspring/closed.git;\
-                    docker restart wordpress;\
-                    docker ps -a"
+                    cd /home/force/test/Jenkins/workspace/back-server;\
+                    ls -a;\
                     '''
                 }
             }
@@ -39,4 +35,3 @@ pipeline {
             }
         }
     }
-}
