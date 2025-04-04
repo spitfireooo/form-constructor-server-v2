@@ -93,6 +93,38 @@ func UpdateSelect(body map[string]interface{}, id int) (response.FieldSelect, er
 		res.IsMultiply = multiply.IsMultiply
 	}
 
+	var variantsRes = new([]response.FieldVariants)
+	variants := body["variants"].([]interface{})
+	if variants != nil {
+		for _, variant := range variants {
+			Variant := variant.(map[string]interface{})["variant"].(string)
+			Name := variant.(map[string]interface{})["name"].(string)
+
+			variantExist, err := service.GetOneFieldVariantsByNameAndFieldID(Name, id)
+			if err != nil {
+				log.Println("Error in variant service", err)
+				return response.FieldSelect{}, &fiber.Error{
+					Code:    fiber.StatusInternalServerError,
+					Message: "Error in variant service",
+				}
+			}
+
+			if res, err := service.UpdateFieldVariants(request.FieldVariantsUpdate{
+				Variant: &Variant,
+				Name:    &Name,
+			}, int(variantExist.ID)); err != nil {
+				log.Println("Error in variant service", err)
+				return response.FieldSelect{}, &fiber.Error{
+					Code:    fiber.StatusInternalServerError,
+					Message: "Error in variant service",
+				}
+			} else {
+				*variantsRes = append(*variantsRes, res)
+			}
+		}
+	}
+	res.Variants = *variantsRes
+
 	return *res, nil
 }
 

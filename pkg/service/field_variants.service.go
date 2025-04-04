@@ -53,6 +53,15 @@ func GetOneFieldVariants(id int) (response.FieldVariants, error) {
 	return *res, err
 }
 
+func GetOneFieldVariantsByNameAndFieldID(name string, id int) (response.FieldVariants, error) {
+	res := new(response.FieldVariants)
+
+	query := fmt.Sprintf(`SELECT * FROM %s WHERE name = $1 AND field_id = $2`, database.FieldVariantsTable)
+	err := database.Connect.Get(res, query, name, id)
+
+	return *res, err
+}
+
 func UpdateFieldVariants(variant request.FieldVariantsUpdate, id int) (response.FieldVariants, error) {
 	if _, err := GetOneFieldVariants(id); err != nil {
 		return response.FieldVariants{}, errors.New("variant not exist")

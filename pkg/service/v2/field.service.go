@@ -470,6 +470,7 @@ func UpdateField(body map[string]interface{}, fieldID int) (map[string]interface
 				}
 			}
 			resp["is_multiply"] = res.IsMultiply
+			resp["variants"] = res.Variants
 
 		case "select":
 			var res response.FieldSelect
@@ -492,6 +493,7 @@ func UpdateField(body map[string]interface{}, fieldID int) (map[string]interface
 			}
 			resp["placeholder"] = res.Placeholder
 			resp["is_multiply"] = res.IsMultiply
+			resp["variants"] = res.Variants
 		}
 	}
 
