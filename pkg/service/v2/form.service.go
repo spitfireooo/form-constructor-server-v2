@@ -96,10 +96,10 @@ func GetForm(id int) (response.FormWithField, error) {
 	}, nil
 }
 
-func UpdateForm(body request.FormWithField, id int) (response.FormWithField, error) {
+func UpdateForm(body request.FormWithFieldUpdate, id int) (response.FormWithField, error) {
 	form, err := service.UpdateForm(request.FormUpdate{
-		Title:       &body.Title,
-		Slug:        &body.Slug,
+		Title:       body.Title,
+		Slug:        body.Slug,
 		Description: body.Description,
 		Logo:        body.Logo,
 	}, id)

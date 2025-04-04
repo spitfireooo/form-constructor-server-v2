@@ -75,7 +75,7 @@ func GetForm(ctx *fiber.Ctx) error {
 // @Success 200 {object} response.FormWithField
 // @Router /api/v2/form/:id [post]
 func UpdateForm(ctx *fiber.Ctx) error {
-	var body request.FormWithField
+	var body request.FormWithFieldUpdate
 	userId, _ := ctx.ParamsInt("id")
 
 	if err := ctx.BodyParser(&body); err != nil {
