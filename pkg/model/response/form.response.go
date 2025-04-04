@@ -21,13 +21,13 @@ type Form struct {
 }
 
 type Field struct {
-	ID       uint   `json:"id" db:"id"`
-	Name     string `json:"name" db:"name"`
-	Type     string `json:"type" db:"type"`
-	Label    string `json:"label" db:"label"`
-	OrderOf  int    `json:"order_of" db:"order_of"`
-	Required bool   `json:"required" db:"required"`
-	FormID   uint   `json:"form_id" db:"form_id"`
+	ID       uint   `json:"id,omitempty" db:"id"`
+	Name     string `json:"name,omitempty" db:"name"`
+	Type     string `json:"type,omitempty" db:"type"`
+	Label    string `json:"label,omitempty" db:"label"`
+	OrderOf  int    `json:"order_of,omitempty" db:"order_of"`
+	Required bool   `json:"required,omitempty" db:"required"`
+	FormID   uint   `json:"form_id,omitempty" db:"form_id"`
 }
 
 type FieldVariants struct {

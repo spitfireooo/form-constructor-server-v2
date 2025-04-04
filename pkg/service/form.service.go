@@ -71,7 +71,7 @@ func UpdateForm(form request.FormUpdate, id int) (response.Form, error) {
 
 	if form.Logo != nil {
 		old_path := formExist.Logo
-		if err := os.Remove(old_path); err != nil {
+		if err := os.Remove(*old_path); err != nil {
 			log.Println("Error in deleting image")
 		}
 	}

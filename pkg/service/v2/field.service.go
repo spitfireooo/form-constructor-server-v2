@@ -260,8 +260,8 @@ func GetOneField(id int) (map[string]interface{}, error) {
 	return resp, err
 }
 
-func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, error) {
-	oldField, err := service.GetOneField(id)
+func UpdateField(body map[string]interface{}, fieldID int) (map[string]interface{}, error) {
+	oldField, err := service.GetOneField(fieldID)
 	if err != nil {
 		log.Println("Error in field service", err)
 		return nil, &fiber.Error{
@@ -282,7 +282,7 @@ func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, e
 		Label:    &Label,
 		OrderOf:  &OrderOf,
 		Required: &Required,
-	}, id)
+	}, fieldID)
 	if err != nil {
 		log.Println("Error in field service", err)
 		return nil, &fiber.Error{
@@ -300,29 +300,32 @@ func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, e
 		"required": field.Required,
 	}
 
-	// ...
 	if field.Type != "" && oldField.Type != field.Type {
-		fieldID := int(field.ID)
+		var err error
+
 		switch oldField.Type {
 		case "string":
-			DeleteString(fieldID)
+			err = DeleteString(fieldID)
 		case "number":
-			DeleteNumber(fieldID)
-
+			err = DeleteNumber(fieldID)
 		case "email":
-			DeleteEmail(fieldID)
-
+			err = DeleteEmail(fieldID)
 		case "text":
-			DeleteText(fieldID)
-
+			err = DeleteText(fieldID)
 		case "date":
-			DeleteDate(fieldID)
-
+			err = DeleteDate(fieldID)
 		case "radio":
-			DeleteRadio(fieldID)
-
+			err = DeleteRadio(fieldID)
 		case "select":
-			DeleteSelect(fieldID)
+			err = DeleteSelect(fieldID)
+		}
+
+		if err != nil {
+			log.Println("Error in delete option", err)
+			return nil, &fiber.Error{
+				Code:    fiber.StatusInternalServerError,
+				Message: "Error in delete option",
+			}
 		}
 	}
 
@@ -331,7 +334,7 @@ func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, e
 		case "string":
 			var res response.FieldString
 			if oldField.Type == field.Type {
-				if res, err = UpdateString(body, int(field.ID)); err != nil {
+				if res, err = UpdateString(body, fieldID); err != nil {
 					log.Println("Error in string service", err)
 					return nil, &fiber.Error{
 						Code:    fiber.StatusInternalServerError,
@@ -339,7 +342,7 @@ func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, e
 					}
 				}
 			} else {
-				if res, err = CreateString(body, int(field.ID)); err != nil {
+				if res, err = CreateString(body, fieldID); err != nil {
 					log.Println("Error in string service", err)
 					return nil, &fiber.Error{
 						Code:    fiber.StatusInternalServerError,
@@ -354,7 +357,7 @@ func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, e
 		case "number":
 			var res response.FieldNumber
 			if oldField.Type == field.Type {
-				if res, err = UpdateNumber(body, int(field.ID)); err != nil {
+				if res, err = UpdateNumber(body, fieldID); err != nil {
 					log.Println("Error in number service", err)
 					return nil, &fiber.Error{
 						Code:    fiber.StatusInternalServerError,
@@ -362,7 +365,7 @@ func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, e
 					}
 				}
 			} else {
-				if res, err = CreateNumber(body, int(field.ID)); err != nil {
+				if res, err = CreateNumber(body, fieldID); err != nil {
 					log.Println("Error in number service", err)
 					return nil, &fiber.Error{
 						Code:    fiber.StatusInternalServerError,
@@ -377,7 +380,7 @@ func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, e
 		case "email":
 			var res response.FieldEmail
 			if oldField.Type == field.Type {
-				if res, err = UpdateEmail(body, int(field.ID)); err != nil {
+				if res, err = UpdateEmail(body, fieldID); err != nil {
 					log.Println("Error in email service", err)
 					return nil, &fiber.Error{
 						Code:    fiber.StatusInternalServerError,
@@ -385,7 +388,7 @@ func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, e
 					}
 				}
 			} else {
-				if res, err = CreateEmail(body, int(field.ID)); err != nil {
+				if res, err = CreateEmail(body, fieldID); err != nil {
 					log.Println("Error in email service", err)
 					return nil, &fiber.Error{
 						Code:    fiber.StatusInternalServerError,
@@ -400,7 +403,7 @@ func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, e
 		case "text":
 			var res response.FieldText
 			if oldField.Type == field.Type {
-				if res, err = UpdateText(body, int(field.ID)); err != nil {
+				if res, err = UpdateText(body, fieldID); err != nil {
 					log.Println("Error in text service", err)
 					return nil, &fiber.Error{
 						Code:    fiber.StatusInternalServerError,
@@ -408,7 +411,7 @@ func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, e
 					}
 				}
 			} else {
-				if res, err = CreateText(body, int(field.ID)); err != nil {
+				if res, err = CreateText(body, fieldID); err != nil {
 					log.Println("Error in text service", err)
 					return nil, &fiber.Error{
 						Code:    fiber.StatusInternalServerError,
@@ -423,7 +426,7 @@ func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, e
 		case "date":
 			var res response.FieldDate
 			if oldField.Type == field.Type {
-				if res, err = UpdateDate(body, int(field.ID)); err != nil {
+				if res, err = UpdateDate(body, fieldID); err != nil {
 					log.Println("Error in date service", err)
 					return nil, &fiber.Error{
 						Code:    fiber.StatusInternalServerError,
@@ -431,7 +434,7 @@ func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, e
 					}
 				}
 			} else {
-				if res, err = CreateDate(body, int(field.ID)); err != nil {
+				if res, err = CreateDate(body, fieldID); err != nil {
 					log.Println("Error in date service", err)
 					return nil, &fiber.Error{
 						Code:    fiber.StatusInternalServerError,
@@ -446,7 +449,7 @@ func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, e
 		case "radio":
 			var res response.FieldRadio
 			if oldField.Type == field.Type {
-				if res, err = UpdateRadio(body, int(field.ID)); err != nil {
+				if res, err = UpdateRadio(body, fieldID); err != nil {
 					log.Println("Error in radio service", err)
 					return nil, &fiber.Error{
 						Code:    fiber.StatusInternalServerError,
@@ -454,7 +457,7 @@ func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, e
 					}
 				}
 			} else {
-				if res, err = CreateRadio(body, int(field.ID)); err != nil {
+				if res, err = CreateRadio(body, fieldID); err != nil {
 					log.Println("Error in radio service", err)
 					return nil, &fiber.Error{
 						Code:    fiber.StatusInternalServerError,
@@ -467,7 +470,7 @@ func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, e
 		case "select":
 			var res response.FieldSelect
 			if oldField.Type == field.Type {
-				if res, err = UpdateSelect(body, int(field.ID)); err != nil {
+				if res, err = UpdateSelect(body, fieldID); err != nil {
 					log.Println("Error in select service", err)
 					return nil, &fiber.Error{
 						Code:    fiber.StatusInternalServerError,
@@ -475,7 +478,7 @@ func UpdateField(body map[string]interface{}, id int) (map[string]interface{}, e
 					}
 				}
 			} else {
-				if res, err = CreateSelect(body, int(field.ID)); err != nil {
+				if res, err = CreateSelect(body, fieldID); err != nil {
 					log.Println("Error in select service", err)
 					return nil, &fiber.Error{
 						Code:    fiber.StatusInternalServerError,

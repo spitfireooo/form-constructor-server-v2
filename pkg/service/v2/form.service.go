@@ -95,3 +95,45 @@ func GetForm(id int) (response.FormWithField, error) {
 		Fields: &fields,
 	}, nil
 }
+
+func UpdateForm(body request.FormWithField, id int) (response.FormWithField, error) {
+	form, err := service.UpdateForm(request.FormUpdate{
+		Title:       &body.Title,
+		Slug:        &body.Slug,
+		Description: body.Description,
+		Logo:        body.Logo,
+	}, id)
+	if err != nil {
+		log.Println("Error in form service", err)
+		return response.FormWithField{}, &fiber.Error{
+			Code:    fiber.StatusInternalServerError,
+			Message: "Error in form service",
+		}
+	}
+
+	var fields []map[string]interface{}
+	if body.Fields != nil {
+		for _, field := range *body.Fields {
+			if res, err := UpdateField(field, int(field["id"].(float64))); err != nil {
+				log.Println("Error in field service v2", err)
+				return response.FormWithField{}, &fiber.Error{
+					Code:    fiber.StatusInternalServerError,
+					Message: "Error in field service v2",
+				}
+			} else {
+				fields = append(fields, res)
+			}
+		}
+	}
+
+	return response.FormWithField{
+		ID:          form.ID,
+		Title:       form.Title,
+		Slug:        form.Slug,
+		Description: form.Description,
+		Logo:        form.Logo,
+		AuthorId:    form.AuthorId,
+
+		Fields: &fields,
+	}, nil
+}

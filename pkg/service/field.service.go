@@ -56,6 +56,15 @@ func GetOneField(id int) (response.Field, error) {
 	return *res, err
 }
 
+func GetFieldByNameAndFormID(name string, id int) (response.Field, error) {
+	res := new(response.Field)
+
+	query := fmt.Sprintf(`SELECT * FROM %s WHERE name = $1 form_id = $2`, database.FieldTable)
+	err := database.Connect.Get(res, query, name, id)
+
+	return *res, err
+}
+
 func UpdateField(field request.FieldUpdate, id int) (response.Field, error) {
 	if field.FormID != nil {
 		if _, err := GetOneForm(int(*field.FormID)); err != nil {
