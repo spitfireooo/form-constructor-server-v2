@@ -129,6 +129,7 @@ func CreateField(body map[string]interface{}, formId int) (map[string]interface{
 				}
 			} else {
 				resp["is_multiply"] = res.IsMultiply
+				resp["variants"] = res.Variants
 			}
 
 		case "select":
@@ -141,6 +142,7 @@ func CreateField(body map[string]interface{}, formId int) (map[string]interface{
 			} else {
 				resp["placeholder"] = res.Placeholder
 				resp["is_multiply"] = res.IsMultiply
+				resp["variants"] = res.Variants
 			}
 		}
 	}
@@ -242,6 +244,7 @@ func GetOneField(id int) (map[string]interface{}, error) {
 			}
 		} else {
 			resp["is_multiply"] = res.IsMultiply
+			resp["variants"] = res.Variants
 		}
 
 	case "select":
@@ -254,6 +257,7 @@ func GetOneField(id int) (map[string]interface{}, error) {
 		} else {
 			resp["placeholder"] = res.Placeholder
 			resp["is_multiply"] = res.IsMultiply
+			resp["variants"] = res.Variants
 		}
 	}
 

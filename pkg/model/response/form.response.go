@@ -122,24 +122,26 @@ type FieldDate struct {
 }
 
 type FieldRadio struct {
-	ID         uint   `json:"id" db:"id"`
-	Name       string `json:"name" db:"name"`
-	Type       string `json:"type" db:"type"`
-	Label      string `json:"label" db:"label"`
-	OrderOf    int    `json:"order_of" db:"order_of"`
-	Required   bool   `json:"required" db:"required"`
-	FormID     uint   `json:"form_id" db:"form_id"`
-	IsMultiply bool   `json:"is_multiply" db:"is_multiply"`
+	ID         uint            `json:"id" db:"id"`
+	Name       string          `json:"name" db:"name"`
+	Type       string          `json:"type" db:"type"`
+	Label      string          `json:"label" db:"label"`
+	OrderOf    int             `json:"order_of" db:"order_of"`
+	Required   bool            `json:"required" db:"required"`
+	FormID     uint            `json:"form_id" db:"form_id"`
+	IsMultiply bool            `json:"is_multiply" db:"is_multiply"`
+	Variants   []FieldVariants `json:"variants" db:"variants"`
 }
 
 type FieldSelect struct {
-	ID          uint   `json:"id" db:"id"`
-	Name        string `json:"name" db:"name"`
-	Type        string `json:"type" db:"type"`
-	Label       string `json:"label" db:"label"`
-	OrderOf     int    `json:"order_of" db:"order_of"`
-	Required    bool   `json:"required" db:"required"`
-	FormID      uint   `json:"form_id" db:"form_id"`
-	Placeholder string `json:"placeholder" db:"placeholder"`
-	IsMultiply  bool   `json:"is_multiply" db:"is_multiply"`
+	ID          uint            `json:"id" db:"id"`
+	Name        string          `json:"name" db:"name"`
+	Type        string          `json:"type" db:"type"`
+	Label       string          `json:"label" db:"label"`
+	OrderOf     int             `json:"order_of" db:"order_of"`
+	Required    bool            `json:"required" db:"required"`
+	FormID      uint            `json:"form_id" db:"form_id"`
+	Placeholder string          `json:"placeholder" db:"placeholder"`
+	IsMultiply  bool            `json:"is_multiply" db:"is_multiply"`
+	Variants    []FieldVariants `json:"variants" db:"variants"`
 }
