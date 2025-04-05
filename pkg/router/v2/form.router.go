@@ -11,6 +11,7 @@ func FormRouter(group fiber.Router, path string) {
 		form.Post("/:userId", controller_v2.CreateForm)
 		form.Get("/:id", controller_v2.GetForm)
 		form.Patch("/:id", controller_v2.UpdateForm)
+		form.Post("/:userId/upload/:slug", controller_v2.UploadForm)
 
 		field := form.Group("/:formId/field")
 		{

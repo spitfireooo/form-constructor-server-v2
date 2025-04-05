@@ -20,6 +20,8 @@ CREATE TABLE tokens
     foreign key (user_id) references users(id) on delete cascade
 );
 
+CREATE INDEX ON tokens(user_id);
+
 CREATE TABLE user_permissions
 (
     id serial not null unique,
@@ -28,6 +30,8 @@ CREATE TABLE user_permissions
 
     foreign key (user_id) references users(id) on delete cascade
 );
+
+CREATE INDEX ON user_permissions(user_id);
 
 CREATE TABLE tags
 (
@@ -46,6 +50,9 @@ CREATE TABLE user_tags
     foreign key (tag_id) references tags(id) on delete cascade
 );
 
+CREATE INDEX ON user_tags(user_id);
+CREATE INDEX ON user_tags(tag_id);
+
 CREATE TABLE forms
 (
     id serial not null unique,
@@ -57,6 +64,8 @@ CREATE TABLE forms
 
     foreign key (author_id) references users(id)
 );
+
+CREATE INDEX ON forms(author_id);
 
 CREATE TABLE fields
 (
@@ -71,6 +80,8 @@ CREATE TABLE fields
     foreign key (form_id) references forms(id) on delete cascade
 );
 
+CREATE INDEX ON fields(form_id);
+
 CREATE TABLE field_variants
 (
     id serial not null unique,
@@ -81,6 +92,8 @@ CREATE TABLE field_variants
     foreign key (field_id) references fields(id) on delete cascade
 );
 
+CREATE INDEX ON field_variants(field_id);
+
 CREATE TABLE field_multiply
 (
     id serial not null unique,
@@ -89,6 +102,8 @@ CREATE TABLE field_multiply
 
     foreign key (field_id) references fields(id) on delete cascade
 );
+
+CREATE INDEX ON field_multiply(field_id);
 
 CREATE TABLE field_placeholder
 (
@@ -99,6 +114,8 @@ CREATE TABLE field_placeholder
     foreign key (field_id) references fields(id) on delete cascade
 );
 
+CREATE INDEX ON field_placeholder(field_id);
+
 CREATE TABLE field_range
 (
     id serial not null unique,
@@ -108,6 +125,8 @@ CREATE TABLE field_range
 
     foreign key (field_id) references fields(id) on delete cascade
 );
+
+CREATE INDEX ON field_range(field_id);
 
 CREATE TABLE results
 (
@@ -122,6 +141,10 @@ CREATE TABLE results
     foreign key (user_id) references users(id)
 );
 
+CREATE INDEX ON results(field_id);
+CREATE INDEX ON results(form_id);
+CREATE INDEX ON results(user_id);
+
 CREATE TABLE dialogs
 (
     id serial not null unique,
@@ -132,6 +155,9 @@ CREATE TABLE dialogs
     foreign key (user2_id) references users(id)
 );
 
+CREATE INDEX ON dialogs(user1_id);
+CREATE INDEX ON dialogs(user2_id);
+
 CREATE TABLE messages
 (
     id serial not null unique,
@@ -141,3 +167,6 @@ CREATE TABLE messages
     foreign key (dialog_id) references dialogs(id),
     foreign key (author_id) references users(id)
 );
+
+CREATE INDEX ON messages(dialog_id);
+CREATE INDEX ON messages(author_id);

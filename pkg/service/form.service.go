@@ -56,6 +56,15 @@ func GetOneForm(id int) (response.Form, error) {
 	return *res, err
 }
 
+func GetOneFormBySlug(slug string) (response.Form, error) {
+	res := new(response.Form)
+
+	query := fmt.Sprintf(`SELECT * FROM %s WHERE slug = $1`, database.FormsTable)
+	err := database.Connect.Get(res, query, slug)
+
+	return *res, err
+}
+
 func UpdateForm(form request.FormUpdate, id int) (response.Form, error) {
 	formExist := new(entity.Form)
 	query := fmt.Sprintf(`SELECT * FROM %s WHERE id = $1`, database.FormsTable)
