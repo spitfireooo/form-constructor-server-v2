@@ -7,9 +7,10 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o /main ./cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o /main ./cmd/main.go
 
-FROM alpine:3
+FROM scratch
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder main /bin/main
 
 EXPOSE 8060
