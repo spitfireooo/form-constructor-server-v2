@@ -97,10 +97,3 @@ func UpdateForm(ctx *fiber.Ctx) error {
 		})
 	}
 }
-
-func UploadForm(ctx *fiber.Ctx) error {
-	//userId, _ := ctx.ParamsInt("userId")
-	//slug, _ := ctx.Params("slug")
-	//formExist := service.GetOneForm()
-	return nil
-}

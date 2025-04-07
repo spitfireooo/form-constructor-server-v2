@@ -29,12 +29,25 @@ type FieldRequest interface {
 }
 
 func CreateField(body map[string]interface{}, formId int) (map[string]interface{}, error) {
+	Name, nameOk := body["name"].(string)
+	Type, typeOk := body["type"].(string)
+	Label, labelOk := body["type"].(string)
+	OrderOf, orderOfOk := body["order_of"].(float64)
+	Required, requiredOk := body["required"].(bool)
+	if !nameOk || !typeOk || !labelOk || !orderOfOk || !requiredOk {
+		log.Println("Error in map parse")
+		return nil, &fiber.Error{
+			Code:    fiber.StatusInternalServerError,
+			Message: "Error in field service",
+		}
+	}
+
 	field, err := service.CreateField(request.Field{
-		Name:     body["name"].(string),
-		Type:     body["type"].(string),
-		Label:    body["label"].(string),
-		OrderOf:  int(body["order_of"].(float64)),
-		Required: body["required"].(bool),
+		Name:     Name,
+		Type:     Type,
+		Label:    Label,
+		OrderOf:  int(OrderOf),
+		Required: Required,
 	}, formId)
 	if err != nil {
 		log.Println("Error in field service", err)
@@ -274,17 +287,25 @@ func UpdateField(body map[string]interface{}, fieldID int) (map[string]interface
 		}
 	}
 
-	Name := body["name"].(string)
-	Type := body["type"].(string)
-	Label := body["label"].(string)
-	OrderOf := int(body["order_of"].(float64))
-	Required := body["required"].(bool)
+	Name, nameOk := body["name"].(string)
+	Type, typeOk := body["type"].(string)
+	Label, labelOk := body["label"].(string)
+	OrderOf, orderOfOk := body["order_of"].(float64)
+	Required, requiredOk := body["required"].(bool)
+	if !nameOk || !typeOk || !labelOk || !orderOfOk || !requiredOk {
+		log.Println("Error in map parse")
+		return nil, &fiber.Error{
+			Code:    fiber.StatusInternalServerError,
+			Message: "Error in field service",
+		}
+	}
+	OrderOfInt := int(OrderOf)
 
 	field, err := service.UpdateField(request.FieldUpdate{
 		Name:     &Name,
 		Type:     &Type,
 		Label:    &Label,
-		OrderOf:  &OrderOf,
+		OrderOf:  &OrderOfInt,
 		Required: &Required,
 	}, fieldID)
 	if err != nil {
