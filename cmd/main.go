@@ -29,15 +29,13 @@ func init() {
 
 	if err := database.DatabaseInit(database.ConnectConfig{
 		Username: viper.GetString("db.username"),
-		Password: os.Getenv("DB_PASSWORD"),
+		Password: os.Getenv("DB_PASSWORD_LOCAL"),
 		Database: viper.GetString("db.database"),
 		Host:     viper.GetString("db.host"),
 		Port:     viper.GetString("db.port"),
 		SSLMode:  viper.GetString("db.ssl_mode"),
 	}); err != nil {
-		log.Fatalln("Error in database connection", err)
-	} else {
-		log.Println("Database connected successfully")
+		log.Fatal("Error in database connection", err)
 	}
 }
 

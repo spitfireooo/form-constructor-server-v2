@@ -104,7 +104,6 @@ func CreateForm(ctx *fiber.Ctx) error {
 	if file, err := ctx.FormFile("logo"); err != nil {
 		log.Println("Error in file upload", err)
 	} else if file.Size > 0 {
-		fmt.Println("file", file.Header.Get("Content-Type"))
 		if err = utils.CheckContentType(
 			file.Header.Get("Content-Type"),
 			"image/jpg",

@@ -15,7 +15,7 @@ func CreateForm(form request.Form, userId int) (response.Form, error) {
 	formExist := new(entity.Form)
 	query := fmt.Sprintf(`SELECT * FROM %s WHERE slug = $1`, database.FormsTable)
 	if err := database.Connect.Get(formExist, query, form.Slug); err == nil {
-		return response.Form{}, errors.New("user with slug exist")
+		return response.Form{}, errors.New("form with slug exist")
 	}
 
 	res := new(response.Form)

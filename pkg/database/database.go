@@ -1,6 +1,7 @@
 package database
 
 import (
+	"errors"
 	"fmt"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
@@ -43,6 +44,25 @@ func DatabaseInit(con ConnectConfig) error {
 	)
 
 	if db, err := sqlx.Connect("postgres", dsn); err != nil {
+		return err
+	} else {
+		Connect = db
+		log.Println("Database connected...")
+	}
+
+	if err := Connect.Ping(); err != nil {
+		log.Println("Database failed to ping")
+		return err
+	}
+
+	return nil
+}
+
+func DatabaseInitByURL(url string) error {
+	if url == "" {
+		errors.New("bad url for connect")
+	}
+	if db, err := sqlx.Connect("postgres", url); err != nil {
 		return err
 	} else {
 		Connect = db
