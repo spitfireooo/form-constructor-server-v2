@@ -151,3 +151,13 @@ type FieldSelect struct {
 	Placeholder string `json:"placeholder" db:"placeholder"`
 	IsMultiply  bool   `json:"is_multiply" db:"is_multiply"`
 }
+
+type FieldRequest interface {
+	FieldString |
+		FieldNumber |
+		FieldEmail |
+		FieldText |
+		FieldDate |
+		FieldRadio |
+		FieldSelect
+}

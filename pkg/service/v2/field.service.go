@@ -8,26 +8,6 @@ import (
 	"log"
 )
 
-type FieldResponse interface {
-	response.FieldString |
-		response.FieldNumber |
-		response.FieldEmail |
-		response.FieldText |
-		response.FieldDate |
-		response.FieldRadio |
-		response.FieldSelect
-}
-
-type FieldRequest interface {
-	request.FieldString |
-		request.FieldNumber |
-		request.FieldEmail |
-		request.FieldText |
-		request.FieldDate |
-		request.FieldRadio |
-		request.FieldSelect
-}
-
 func CreateField(body map[string]interface{}, formId int) (map[string]interface{}, error) {
 	Name, nameOk := body["name"].(string)
 	Type, typeOk := body["type"].(string)
@@ -185,6 +165,8 @@ func GetOneField(id int) (map[string]interface{}, error) {
 	switch field.Type {
 	case "string":
 		if res, err := GetString(id); err != nil {
+			//service.DeleteField(id)
+			//DeleteString(id)
 			log.Println("Error in string service", err)
 			return nil, &fiber.Error{
 				Code:    fiber.StatusInternalServerError,

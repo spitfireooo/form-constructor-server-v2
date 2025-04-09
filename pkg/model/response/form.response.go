@@ -145,3 +145,13 @@ type FieldSelect struct {
 	IsMultiply  bool            `json:"is_multiply" db:"is_multiply"`
 	Variants    []FieldVariants `json:"variants" db:"variants"`
 }
+
+type FieldResponse interface {
+	FieldString |
+		FieldNumber |
+		FieldEmail |
+		FieldText |
+		FieldDate |
+		FieldRadio |
+		FieldSelect
+}
