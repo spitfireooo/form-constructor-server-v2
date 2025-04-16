@@ -6,6 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
 	"github.com/spitfireooo/form-constructor-server-v2/pkg/config"
@@ -32,7 +33,7 @@ func init() {
 		Long:  "Server for form constructor",
 	})
 	cmd.PersistentFlags().IntVarP(&PORT, "port", "p", 8060, "Port for starting")
-	cmd.PersistentFlags().StringVarP(&DB_CON, "db-con", "d", "conf", "Database mode connection")
+	cmd.PersistentFlags().StringVarP(&DB_CON, "db-con", "d", "uri", "Database mode connection")
 	if err := cmd.Execute(); err != nil {
 		log.Fatalln("Error in cobra init", err)
 	}
@@ -78,6 +79,7 @@ func main() {
 		FilePath: "./docs/swagger.json",
 		Path:     "docs",
 	}))
+	app.Use(recover.New())
 
 	router.Router(app)
 

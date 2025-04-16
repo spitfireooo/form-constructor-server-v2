@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
+	middleware "github.com/spitfireooo/form-constructor-auth/pkg/middlewares"
 	router_v2 "github.com/spitfireooo/form-constructor-server-v2/pkg/router/v2"
 	"time"
 )
@@ -24,7 +25,7 @@ func Router(r *fiber.App) {
 		}
 	}
 
-	utils := r.Group("/utils")
+	utils := r.Group("/utils", middleware.IsAuthorized, middleware.IsAdmin)
 	{
 		utils.Get("/metrics", monitor.New(monitor.Config{
 			Title:   "Metrics Of Form Constructor Server",
