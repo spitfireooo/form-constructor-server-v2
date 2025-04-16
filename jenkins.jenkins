@@ -4,7 +4,7 @@ pipeline {
         stage('Upload changes') {
             steps {
                     sh '''
-                    cd /home/jenkins/workspace/form-constructor-server-v2 ;\
+                    cd /home/jenkins ;\
                     ls -a;\
                     '''
                 }
